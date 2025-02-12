@@ -3,7 +3,7 @@
 ## Welcome to the bonus content of "The Book of Dash".   :hugs:
 
 Here you will find additional examples of Plotly Dash components,
-layouts and style.  To learn more about making dashboards with Plotly Dash, and how to buy your copy of
+layouts and style.  To learn more about making python_tutorials with Plotly Dash, and how to buy your copy of
 "The Book of Dash", please see the reference section at the bottom of this article.
 
 This article will focus on the `dcc.Slider` and the `dcc.RangeSlider` components.  A slider is a way for users to select numeric input
@@ -52,7 +52,7 @@ When using positional arguments, make sure you know the correct order (position)
 
 ## Plotly Dash dcc.RangeSlider
 
-The `dcc.RangeSlider` component allows the user to select a range of values between the min and the max values. This is different from the slider where the min value is predefined by code and cannot be changed through user interaction in the dashboard.
+The `dcc.RangeSlider` component allows the user to select a range of values between the min and the max values. This is different from the slider where the min value is predefined by code and cannot be changed through user interaction in the python_tutorial.
 
 
 ![RangeSlider](https://user-images.githubusercontent.com/72614349/189491972-461baace-0adb-4955-8ced-0946a305bf90.png)
@@ -295,5 +295,3 @@ __Adam Schroeder__:
 __Chris Mayer__:
 
 🐍 Python + Crypto Email Academy: https://blog.finxter.com/subscribe/
-
-

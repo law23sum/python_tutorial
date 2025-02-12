@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/sum/Project/PycharmProjects/dashboard/sandbox/env"
+VIRTUAL_ENV="/Users/sum/Project/PycharmProjects/python_tutorial/sandbox/env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

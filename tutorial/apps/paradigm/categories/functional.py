@@ -7,7 +7,7 @@ import numpy as np
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
 
-DEFAULT_LOG_PATH = "/Users/sum/Dashboard/developer_x23/sandbox_x23/log"
+DEFAULT_LOG_PATH = "/Users/sum/python_tutorial/developer_x23/sandbox_x23/log"
 
 
 def multiply_by_two(numbers):

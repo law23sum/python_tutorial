@@ -1,1 +1,0 @@
-From page 106.

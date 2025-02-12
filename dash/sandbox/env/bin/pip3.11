@@ -1,4 +1,4 @@
-#!/Users/sum/Project/PycharmProjects/dashboard/sandbox/env/bin/python3.11
+#!/Users/sum/Project/PycharmProjects/python_tutorial/sandbox/env/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys

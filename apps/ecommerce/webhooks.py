@@ -6,7 +6,7 @@ from apps.utils.billing import get_stripe_module
 
 from .helpers import create_purchase_from_checkout_session
 
-log = logging.getLogger("dashboard.ecommerce")
+log = logging.getLogger("python_tutorial.ecommerce")
 
 
 @djstripe_hooks.handler("checkout.session.completed")

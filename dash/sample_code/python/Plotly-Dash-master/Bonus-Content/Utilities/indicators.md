@@ -4,7 +4,7 @@
 ### Welcome to the bonus content of "The Book of Dash".  :hugs:
 
 Here you'll find additional examples of Plotly Dash components, layouts and style.  To learn more about making
-dashboards with Plotly Dash, and how to buy your copy of ["The Book of Dash"](https://nostarch.com/book-dash), please see the reference section
+python_tutorials with Plotly Dash, and how to buy your copy of ["The Book of Dash"](https://nostarch.com/book-dash), please see the reference section
 at the bottom of this article.
 
 This article covers Bootstrap position utility classes  -- the Bootstrap shorthand helper to make component layout faster and
@@ -407,6 +407,3 @@ __Adam Schroeder__:
 __Chris Mayer__:
 
 🐍 Python + Crypto Email Academy: https://blog.finxter.com/subscribe/_
-
-
-

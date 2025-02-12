@@ -323,11 +323,11 @@ msgstr ""
 
 msgid ""
 "Teams are enabled but you have no teams. Create a team below to access the "
-"rest of the dashboard."
+"rest of the python_tutorial."
 msgstr ""
 
 #, python-brace-format
-msgid "{team} Dashboard"
+msgid "{team} python_tutorial"
 msgstr ""
 
 msgid "Yes"
@@ -776,7 +776,7 @@ msgstr ""
 msgid "Image Gallery"
 msgstr ""
 
-msgid "Project Dashboard"
+msgid "Project python_tutorial"
 msgstr ""
 
 msgid "User Signups (Daily)"
@@ -1055,7 +1055,7 @@ msgstr ""
 msgid "My Teams"
 msgstr ""
 
-msgid "View Dashboard"
+msgid "View python_tutorial"
 msgstr ""
 
 msgid "View Details"
@@ -1177,7 +1177,7 @@ msgstr ""
 msgid "Application"
 msgstr ""
 
-msgid "Dashboard"
+msgid "python_tutorial"
 msgstr ""
 
 msgid "E-Commerce"

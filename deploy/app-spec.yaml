@@ -20,7 +20,7 @@ services:
     value: ${python-tutorial-db.DATABASE_URL}
   - key: DJANGO_SETTINGS_MODULE
     scope: RUN_AND_BUILD_TIME
-    value: dashboard.settings_production
+    value: python_tutorial.settings_production
   - key: SECRET_KEY
     scope: RUN_AND_BUILD_TIME
     value: 'AxoWhtgHfJHTLsXxqZRndlyZGicntgaqlrhEsJPjTRpZRmGqAlvgYdJkWJSz'
@@ -45,7 +45,7 @@ workers:
     value: ${python-tutorial-db.DATABASE_URL}
   - key: DJANGO_SETTINGS_MODULE
     scope: RUN_AND_BUILD_TIME
-    value: dashboard.settings_production
+    value: python_tutorial.settings_production
   - key: SECRET_KEY
     scope: RUN_AND_BUILD_TIME
     value: 'AxoWhtgHfJHTLsXxqZRndlyZGicntgaqlrhEsJPjTRpZRmGqAlvgYdJkWJSz'
@@ -59,4 +59,4 @@ workers:
   instance_count: 1
   instance_size_slug: basic-xs
   name: python-tutorial-celery
-  run_command: celery -A dashboard worker -l INFO --pool=gevent --concurrency 2
+  run_command: celery -A python_tutorial worker -l INFO --pool=gevent --concurrency 2

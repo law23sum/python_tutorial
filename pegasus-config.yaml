@@ -18,7 +18,7 @@ default_context:
   marketing_email_platform: email_octopus
   post_process: y
   project_name: PythonTutorial
-  project_slug: dashboard
+  project_slug: python_tutorial
   stripe_payment_mode: checkout
   subscription_billing_model: default
   subscription_pricing_ui: in_app

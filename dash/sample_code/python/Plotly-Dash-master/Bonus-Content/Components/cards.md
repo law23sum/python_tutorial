@@ -3,7 +3,7 @@
 ### Welcome to the bonus content of "The Book of Dash".  :hugs:
 
 Here you will find additional examples of Plotly Dash components, layouts and style.  To learn more about making
-dashboards with Plotly Dash, and how to buy your copy of ["The Book of Dash"](https://nostarch.com/book-dash), please see the reference section
+python_tutorials with Plotly Dash, and how to buy your copy of ["The Book of Dash"](https://nostarch.com/book-dash), please see the reference section
 at the bottom of this article.
 
 This article will focus on the Card components from the Dash Boostrap Component library. Using cards is a great way to 
@@ -100,7 +100,7 @@ documentation.  You can also find more information about adding icons to dash co
 
 ## Dash Bootstrap Cards Side-by-Side 
 
-In business intelligence dashboards, it's common to highlight KPIs or Key Performance Indicators in a group of cards.  You can find many
+In business intelligence python_tutorials, it's common to highlight KPIs or Key Performance Indicators in a group of cards.  You can find many
 examples in the [Plotly App Gallery](https://dash.gallery/Portal/).  
 
 This app places three KPI cards side-by-side.  We use the `dbc.Row` and `dbc.Col` components to create this responsive
@@ -510,5 +510,3 @@ __Adam Schroeder__:
 __Chris Mayer__:
 
 🐍 Python + Crypto Email Academy: https://blog.finxter.com/subscribe/_
-
-

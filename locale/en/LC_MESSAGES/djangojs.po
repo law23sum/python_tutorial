@@ -72,7 +72,7 @@ msgstr ""
 msgid "Your team name."
 msgstr ""
 
-msgid "View Dashboard"
+msgid "View python_tutorial"
 msgstr ""
 
 msgid "Team Members"

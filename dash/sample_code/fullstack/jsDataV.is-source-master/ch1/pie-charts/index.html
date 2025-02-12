@@ -1,43 +1,163 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title></title>
-</head>
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import Plot from 'react-plotly.js';
 
-<body>
+function TransactionList() {
+const [employees, setTransactions] = useState([]);
+const [revenue, setRevenue] = useState(0);
+const [expenses, setExpenses] = useState(0);
 
-<div id="chart" style="width:400px;height:400px;"></div>
+useEffect(() => {
+fetch('/api/employees/')
+.then(response => response.json())
+.then(data => {
+setTransactions(data);
+calculateRevenueAndExpenses(data);
+})
+.catch(error => console.log('Error fetching employees:', error));
+}, []);
 
-<!--[if lt IE 9]>
-<script src="js/excanvas.min.js"></script><![endif]-->
-<script src="js/flotr2.min.js"></script>
-<script>
+const calculateRevenueAndExpenses = (data) => {
+let revenueTotal = 0;
+let expensesTotal = 0;
+data.forEach(transaction => {
+if (transaction.amount > 0) {
+revenueTotal += transaction.amount;
+} else {
+expensesTotal += Math.abs(transaction.amount); // Use Math.abs to convert negative to positive
+}
+});
+setRevenue(revenueTotal);
+setExpenses(expensesTotal);
+};
 
-    window.onload = function () {
+// Dynamically generating subplot data for demonstration
+const generateSubplotData = () => {
+// Simulate data calculation based on employees
+// This needs to be replaced with actual logic to calculate based on time periods
+return employees.reduce(
+(acc, transaction) => {
+if (transaction.amount > 0) {
+acc.revenue += transaction.amount;
+} else {
+acc.expenses += Math.abs(transaction.amount);
+}
+return acc;
+},
+{ revenue: 0, expenses: 0 }
+);
+};
 
-        data = [
-            {data: [[0,22.4]], label: "Extreme Poverty"},
-            {data: [[1,77.6]], label: "Rest of the World"}
-        ];
-        Flotr.draw(document.getElementById("chart"),data, {
-            title: "How Much of the World Lives on $1.25/day?",
-            pie: {
-                show: true,
-            },
-            yaxis: {
-                showLabels: false,
-            },
-            xaxis: {
-                showLabels: false,
-            },
-            grid: {
-                horizontalLines: false,
-                verticalLines: false,
-            }
-        });
-    };
+const { revenue: weekRevenue, expenses: weekExpenses } = generateSubplotData(); // Simulate weekly data
+const { revenue: monthRevenue, expenses: monthExpenses } = generateSubplotData(); // Simulate monthly data
 
-</script>
-</body>
-</html>
+return (
+<div>
+    <h1>Transactions</h1>
+    <ul>
+        {employees.map((transaction) => (
+        <li key={transaction.id}>{transaction.description} - ${transaction.amount}</li>
+        ))}
+    </ul>
+    <Link to="/add">
+    Add a New Transaction</Link>
+    <h2>Revenue vs Expenses for Current Month</h2>
+    <Plot
+            data={[
+            {
+            values: [revenue, expenses],
+            labels: [
+    'Revenue', 'Expenses'],
+    type: 'pie',
+    marker: { colors: ['#2ca02c', '#ff7f0e'] }, // Green for revenue, Orange for expenses
+    },
+    ]}
+    layout={{ width: 400, height: 400, title: 'Revenue vs Expenses' }}
+    />
+    <h2>Subplot Tables</h2>
+    <div className="subplot-tables">
+        <table>
+            <thead>
+            <tr>
+                <th>Time Period</th>
+                <th>Revenue</th>
+                <th>Expenses</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1 Week</td>
+                <td>${weekRevenue}</td>
+                <td>${weekExpenses}</td>
+            </tr>
+            <tr>
+                <td>1 Month</td>
+                <td>${monthRevenue}</td>
+                <td>${monthExpenses}</td>
+            </tr>
+            </tbody>
+        </table>
+        const url= 'https://apidemo.chase.com/mock/aggregator-oauth/v1/authorize?response_type=code&client_id=SUNSHINE_WALLET&redirect_uri=showcaseApp/payment-settlement/eligible-accounts&state=apigeeapp&scope=aggregator';
+/*ES5*/
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+  if (xhttp.readyState === 4) {
+    console.log(this.status);
+    console.log(this.response);
+  }
+};
+xhttp.open('GET', url, true);
+xhttp.setRequestHeader('Content-Type', 'application/json');
+xhttp.setRequestHeader('playground-id-token', '{copied-playground-token-id}');
+xhttp.send();
+
+/*ES6*/
+fetch(url, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    'playground-id-token': '{copied-playground-token-id}'
+  }
+}).then(response => {
+    console.log(response.status);
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => console.log(error));
+    </div>
+</div>
+);
+}
+
+function TransactionForm() {
+const handleSubmit = (event) => {
+event.preventDefault();
+alert('Form submitted. Implement submission logic.');
+};
+
+return (
+<div>
+    <h1>Add Transaction</h1>
+    <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="Description" required/>
+        <input type="number" placeholder="Amount" required/>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+);
+}
+
+function App() {
+return (
+<Router>
+    <Switch>
+        <Route path="/" exact component={TransactionList}/>
+        <Route path="/add" component={TransactionForm}/>
+    </Switch>
+</Router>
+);
+}
+
+export default App;

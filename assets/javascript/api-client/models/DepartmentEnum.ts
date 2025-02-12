@@ -14,7 +14,11 @@
 
 
 /**
- * 
+ * * `hr` - Human Resources
+ * * `finance` - Finance
+ * * `engineering` - Engineering
+ * * `marketing` - Marketing
+ * * `sales` - Sales
  * @export
  */
 export const DepartmentEnum = {

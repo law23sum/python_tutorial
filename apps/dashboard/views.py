@@ -19,7 +19,7 @@ def _string_to_date(date_str: str) -> datetime.date:
 
 
 @user_passes_test(lambda u: u.is_superuser, login_url="/404")
-def dashboard(request):
+def python_tutorial(request):
     end_str = request.GET.get("end")
     if end_str:
         end = _string_to_date(end_str)
@@ -35,7 +35,7 @@ def dashboard(request):
     start_value = CustomUser.objects.filter(date_joined__lt=start).count()
     return TemplateResponse(
         request,
-        "dashboard/user_dashboard.html",
+        "dashboard/user_python_tutorial.html",
         context={
             "active_tab": "project-dashboard",
             "signup_data": serializer.data,

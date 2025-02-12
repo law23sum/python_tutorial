@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { DepartmentEnum } from './DepartmentEnum';
 import {
     DepartmentEnumFromJSON,
@@ -74,16 +74,14 @@ export interface Employee {
  * Check if a given object implements the Employee interface.
  */
 export function instanceOfEmployee(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "user" in value;
-    isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "department" in value;
-    isInstance = isInstance && "salary" in value;
-    isInstance = isInstance && "createdAt" in value;
-    isInstance = isInstance && "updatedAt" in value;
-
-    return isInstance;
+    if (!('id' in value)) return false;
+    if (!('user' in value)) return false;
+    if (!('name' in value)) return false;
+    if (!('department' in value)) return false;
+    if (!('salary' in value)) return false;
+    if (!('createdAt' in value)) return false;
+    if (!('updatedAt' in value)) return false;
+    return true;
 }
 
 export function EmployeeFromJSON(json: any): Employee {
@@ -91,7 +89,7 @@ export function EmployeeFromJSON(json: any): Employee {
 }
 
 export function EmployeeFromJSONTyped(json: any, ignoreDiscriminator: boolean): Employee {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -107,17 +105,14 @@ export function EmployeeFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
 }
 
 export function EmployeeToJSON(value?: Employee | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'name': value.name,
-        'department': DepartmentEnumToJSON(value.department),
-        'salary': value.salary,
+        'name': value['name'],
+        'department': DepartmentEnumToJSON(value['department']),
+        'salary': value['salary'],
     };
 }
 

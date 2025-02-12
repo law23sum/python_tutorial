@@ -8,8 +8,8 @@ def home(request):
             request,
             "web/app_home.html",
             context={
-                "active_tab": "dashboard",
-                "page_title": _("Dashboard"),
+                "active_tab": "python_tutorial",
+                "page_title": _("python_tutorial"),
             },
         )
     else:

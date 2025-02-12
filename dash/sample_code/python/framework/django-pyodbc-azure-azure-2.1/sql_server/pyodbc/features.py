@@ -28,5 +28,5 @@ class DatabaseFeatures(BaseDatabaseFeatures):
     supports_tablespaces = True
     supports_temporal_subtraction = True
     supports_timezones = False
-    supports_transactions = True
+    supports_employees = True
     uses_savepoints = True

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -43,12 +43,10 @@ export interface AggregateEmployeeData {
  * Check if a given object implements the AggregateEmployeeData interface.
  */
 export function instanceOfAggregateEmployeeData(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "totalCosts" in value;
-    isInstance = isInstance && "averageSalaries" in value;
-    isInstance = isInstance && "headcounts" in value;
-
-    return isInstance;
+    if (!('totalCosts' in value)) return false;
+    if (!('averageSalaries' in value)) return false;
+    if (!('headcounts' in value)) return false;
+    return true;
 }
 
 export function AggregateEmployeeDataFromJSON(json: any): AggregateEmployeeData {
@@ -56,7 +54,7 @@ export function AggregateEmployeeDataFromJSON(json: any): AggregateEmployeeData 
 }
 
 export function AggregateEmployeeDataFromJSONTyped(json: any, ignoreDiscriminator: boolean): AggregateEmployeeData {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -68,17 +66,14 @@ export function AggregateEmployeeDataFromJSONTyped(json: any, ignoreDiscriminato
 }
 
 export function AggregateEmployeeDataToJSON(value?: AggregateEmployeeData | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'total_costs': value.totalCosts,
-        'average_salaries': value.averageSalaries,
-        'headcounts': value.headcounts,
+        'total_costs': value['totalCosts'],
+        'average_salaries': value['averageSalaries'],
+        'headcounts': value['headcounts'],
     };
 }
 

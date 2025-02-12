@@ -19,3 +19,4 @@ _dist/
 # uncomment these lines after setting up the front-end build pipeline in dev and production
 # static/css/
 # static/js/
+/.venv/

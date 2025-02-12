@@ -5,8 +5,8 @@
     </div>
     <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-            <a href="{% url 'web:home' %}" class="nav-link {% if active_tab == 'dashboard' %}active{% endif %}">
-                <span class="pg-icon"><i class="fa fa-home"></i></span><span>{% translate "Dashboard" %}</span>
+            <a href="{% url 'web:home' %}" class="nav-link {% if active_tab == 'python_tutorial' %}active{% endif %}">
+                <span class="pg-icon"><i class="fa fa-home"></i></span><span>{% translate "python_tutorial" %}</span>
             </a>
         </li>
      <div class="mb-2">
@@ -52,13 +52,6 @@
                class="nav-link {% if active_tab == 'group-chat' %}active{% endif %}">
                 <span class="pg-icon"><i class="fa-regular fa-comments"></i></span>
                 <span>{% translate "Group Chat" %}</span>
-            </a>
-        </li>
-    
-        <li class="nav-item">
-            <a href="{% url 'pegasus_employees:charts' %}"
-               class="nav-link {% if active_tab == 'charts' %}active{% endif %}">
-                <span class="pg-icon"><i class="fa fa-bar-chart-o"></i></span><span>Charts</span>
             </a>
         </li>
         <li class="nav-item">

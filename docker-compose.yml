@@ -7,7 +7,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=dashboard
+      - POSTGRES_DB=python_tutorial
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     healthcheck:
@@ -45,7 +45,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: celery -A dashboard worker -l INFO --beat --concurrency 2
+    command: celery -A python_tutorial worker -l INFO --beat --concurrency 2
     volumes:
       - .:/code
     env_file:

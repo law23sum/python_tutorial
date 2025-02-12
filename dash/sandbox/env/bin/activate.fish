@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/sum/Project/PycharmProjects/dashboard/sandbox/env"
+set -gx VIRTUAL_ENV "/Users/sum/Project/PycharmProjects/python_tutorial/sandbox/env"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

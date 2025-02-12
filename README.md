@@ -40,7 +40,7 @@ Setup a virtualenv and install requirements
 (this example uses [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/)):
 
 ```bash
-mkvirtualenv dashboard -p python3.11
+mkvirtualenv python_tutorial -p python3.11
 pip install -r dev-requirements.txt
 ```
 
@@ -118,13 +118,13 @@ If you use Docker it will start automatically.
 You can run it using:
 
 ```bash
-celery -A dashboard worker -l INFO
+celery -A python_tutorial worker -l INFO
 ```
 
 Or with celery beat (for scheduled tasks):
 
 ```bash
-celery -A dashboard worker -l INFO -B
+celery -A python_tutorial worker -l INFO -B
 ```
 
 ## Updating translations

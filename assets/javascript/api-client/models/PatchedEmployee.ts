@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { DepartmentEnum } from './DepartmentEnum';
 import {
     DepartmentEnumFromJSON,
@@ -74,9 +74,7 @@ export interface PatchedEmployee {
  * Check if a given object implements the PatchedEmployee interface.
  */
 export function instanceOfPatchedEmployee(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function PatchedEmployeeFromJSON(json: any): PatchedEmployee {
@@ -84,33 +82,30 @@ export function PatchedEmployeeFromJSON(json: any): PatchedEmployee {
 }
 
 export function PatchedEmployeeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PatchedEmployee {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'user': !exists(json, 'user') ? undefined : json['user'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'department': !exists(json, 'department') ? undefined : DepartmentEnumFromJSON(json['department']),
-        'salary': !exists(json, 'salary') ? undefined : json['salary'],
-        'createdAt': !exists(json, 'created_at') ? undefined : (new Date(json['created_at'])),
-        'updatedAt': !exists(json, 'updated_at') ? undefined : (new Date(json['updated_at'])),
+        'id': json['id'] == null ? undefined : json['id'],
+        'user': json['user'] == null ? undefined : json['user'],
+        'name': json['name'] == null ? undefined : json['name'],
+        'department': json['department'] == null ? undefined : DepartmentEnumFromJSON(json['department']),
+        'salary': json['salary'] == null ? undefined : json['salary'],
+        'createdAt': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
+        'updatedAt': json['updated_at'] == null ? undefined : (new Date(json['updated_at'])),
     };
 }
 
 export function PatchedEmployeeToJSON(value?: PatchedEmployee | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'name': value.name,
-        'department': DepartmentEnumToJSON(value.department),
-        'salary': value.salary,
+        'name': value['name'],
+        'department': DepartmentEnumToJSON(value['department']),
+        'salary': value['salary'],
     };
 }
 

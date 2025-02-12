@@ -15,46 +15,46 @@
 
 import * as runtime from '../runtime';
 import type {
-  AggregateEmployeeData,
-  Employee,
-  PaginatedEmployeeList,
-  PatchedEmployee,
-} from '../models';
+  AggregateTransactionData,
+  PaginatedTransactionList,
+  PatchedTransaction,
+  Transaction,
+} from '../models/index';
 import {
-    AggregateEmployeeDataFromJSON,
-    AggregateEmployeeDataToJSON,
-    EmployeeFromJSON,
-    EmployeeToJSON,
-    PaginatedEmployeeListFromJSON,
-    PaginatedEmployeeListToJSON,
-    PatchedEmployeeFromJSON,
-    PatchedEmployeeToJSON,
-} from '../models';
+    AggregateTransactionDataFromJSON,
+    AggregateTransactionDataToJSON,
+    PaginatedTransactionListFromJSON,
+    PaginatedTransactionListToJSON,
+    PatchedTransactionFromJSON,
+    PatchedTransactionToJSON,
+    TransactionFromJSON,
+    TransactionToJSON,
+} from '../models/index';
 
-export interface EmployeesCreateRequest {
-    employee: Employee;
+export interface TransactionsCreateRequest {
+    transaction: Transaction;
 }
 
-export interface EmployeesDestroyRequest {
+export interface TransactionsDestroyRequest {
     id: number;
 }
 
-export interface EmployeesListRequest {
+export interface TransactionsListRequest {
     page?: number;
 }
 
-export interface EmployeesPartialUpdateRequest {
+export interface TransactionsPartialUpdateRequest {
     id: number;
-    patchedEmployee?: PatchedEmployee;
+    patchedTransaction?: PatchedTransaction;
 }
 
-export interface EmployeesRetrieveRequest {
+export interface TransactionsRetrieveRequest {
     id: number;
 }
 
-export interface EmployeesUpdateRequest {
+export interface TransactionsUpdateRequest {
     id: number;
-    employee: Employee;
+    transaction: Transaction;
 }
 
 /**
@@ -64,7 +64,7 @@ export class PegasusApi extends runtime.BaseAPI {
 
     /**
      */
-    async employeesAggregateDataRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AggregateEmployeeData>> {
+    async employeesAggregateDataRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AggregateTransactionData>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -72,10 +72,6 @@ export class PegasusApi extends runtime.BaseAPI {
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
-        }
-
         const response = await this.request({
             path: `/pegasus/employees/api/employee-data/`,
             method: 'GET',
@@ -83,21 +79,24 @@ export class PegasusApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => AggregateEmployeeDataFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => AggregateTransactionDataFromJSON(jsonValue));
     }
 
     /**
      */
-    async employeesAggregateData(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AggregateEmployeeData> {
+    async employeesAggregateData(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AggregateTransactionData> {
         const response = await this.employeesAggregateDataRaw(initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async employeesCreateRaw(requestParameters: EmployeesCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Employee>> {
-        if (requestParameters.employee === null || requestParameters.employee === undefined) {
-            throw new runtime.RequiredError('employee','Required parameter requestParameters.employee was null or undefined when calling employeesCreate.');
+    async employeesCreateRaw(requestParameters: TransactionsCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
+        if (requestParameters['transaction'] == null) {
+            throw new runtime.RequiredError(
+                'transaction',
+                'Required parameter "transaction" was null or undefined when calling employeesCreate().'
+            );
         }
 
         const queryParameters: any = {};
@@ -109,33 +108,32 @@ export class PegasusApi extends runtime.BaseAPI {
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
-        }
-
         const response = await this.request({
             path: `/pegasus/employees/api/employees/`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: EmployeeToJSON(requestParameters.employee),
+            body: TransactionToJSON(requestParameters['transaction']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EmployeeFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TransactionFromJSON(jsonValue));
     }
 
     /**
      */
-    async employeesCreate(requestParameters: EmployeesCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Employee> {
+    async employeesCreate(requestParameters: TransactionsCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
         const response = await this.employeesCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async employeesDestroyRaw(requestParameters: EmployeesDestroyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling employeesDestroy.');
+    async employeesDestroyRaw(requestParameters: TransactionsDestroyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling employeesDestroy().'
+            );
         }
 
         const queryParameters: any = {};
@@ -145,12 +143,8 @@ export class PegasusApi extends runtime.BaseAPI {
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
-        }
-
         const response = await this.request({
-            path: `/pegasus/employees/api/employees/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/pegasus/employees/api/employees/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -161,17 +155,17 @@ export class PegasusApi extends runtime.BaseAPI {
 
     /**
      */
-    async employeesDestroy(requestParameters: EmployeesDestroyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async employeesDestroy(requestParameters: TransactionsDestroyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.employeesDestroyRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async employeesListRaw(requestParameters: EmployeesListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedEmployeeList>> {
+    async employeesListRaw(requestParameters: TransactionsListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedTransactionList>> {
         const queryParameters: any = {};
 
-        if (requestParameters.page !== undefined) {
-            queryParameters['page'] = requestParameters.page;
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -179,10 +173,6 @@ export class PegasusApi extends runtime.BaseAPI {
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
-        }
-
         const response = await this.request({
             path: `/pegasus/employees/api/employees/`,
             method: 'GET',
@@ -190,21 +180,24 @@ export class PegasusApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedEmployeeListFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedTransactionListFromJSON(jsonValue));
     }
 
     /**
      */
-    async employeesList(requestParameters: EmployeesListRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedEmployeeList> {
+    async employeesList(requestParameters: TransactionsListRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedTransactionList> {
         const response = await this.employeesListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async employeesPartialUpdateRaw(requestParameters: EmployeesPartialUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Employee>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling employeesPartialUpdate.');
+    async employeesPartialUpdateRaw(requestParameters: TransactionsPartialUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling employeesPartialUpdate().'
+            );
         }
 
         const queryParameters: any = {};
@@ -216,33 +209,32 @@ export class PegasusApi extends runtime.BaseAPI {
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
-        }
-
         const response = await this.request({
-            path: `/pegasus/employees/api/employees/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/pegasus/employees/api/employees/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: PatchedEmployeeToJSON(requestParameters.patchedEmployee),
+            body: PatchedTransactionToJSON(requestParameters['patchedTransaction']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EmployeeFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TransactionFromJSON(jsonValue));
     }
 
     /**
      */
-    async employeesPartialUpdate(requestParameters: EmployeesPartialUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Employee> {
+    async employeesPartialUpdate(requestParameters: TransactionsPartialUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
         const response = await this.employeesPartialUpdateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async employeesRetrieveRaw(requestParameters: EmployeesRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Employee>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling employeesRetrieve.');
+    async employeesRetrieveRaw(requestParameters: TransactionsRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling employeesRetrieve().'
+            );
         }
 
         const queryParameters: any = {};
@@ -252,36 +244,38 @@ export class PegasusApi extends runtime.BaseAPI {
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
-        }
-
         const response = await this.request({
-            path: `/pegasus/employees/api/employees/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/pegasus/employees/api/employees/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EmployeeFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TransactionFromJSON(jsonValue));
     }
 
     /**
      */
-    async employeesRetrieve(requestParameters: EmployeesRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Employee> {
+    async employeesRetrieve(requestParameters: TransactionsRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
         const response = await this.employeesRetrieveRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async employeesUpdateRaw(requestParameters: EmployeesUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Employee>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling employeesUpdate.');
+    async employeesUpdateRaw(requestParameters: TransactionsUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Transaction>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling employeesUpdate().'
+            );
         }
 
-        if (requestParameters.employee === null || requestParameters.employee === undefined) {
-            throw new runtime.RequiredError('employee','Required parameter requestParameters.employee was null or undefined when calling employeesUpdate.');
+        if (requestParameters['transaction'] == null) {
+            throw new runtime.RequiredError(
+                'transaction',
+                'Required parameter "transaction" was null or undefined when calling employeesUpdate().'
+            );
         }
 
         const queryParameters: any = {};
@@ -293,24 +287,20 @@ export class PegasusApi extends runtime.BaseAPI {
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
             headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
         }
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // ApiKeyAuth authentication
-        }
-
         const response = await this.request({
-            path: `/pegasus/employees/api/employees/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/pegasus/employees/api/employees/{id}/`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: EmployeeToJSON(requestParameters.employee),
+            body: TransactionToJSON(requestParameters['transaction']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EmployeeFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TransactionFromJSON(jsonValue));
     }
 
     /**
      */
-    async employeesUpdate(requestParameters: EmployeesUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Employee> {
+    async employeesUpdate(requestParameters: TransactionsUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Transaction> {
         const response = await this.employeesUpdateRaw(requestParameters, initOverrides);
         return await response.value();
     }

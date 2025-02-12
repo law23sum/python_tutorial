@@ -53,9 +53,9 @@ def main():
 
         create = input("Do you want to create this folder structure? (yes/no): ")
         if create.lower() == "yes":
-            base_path = input("Where do you want to create it? (default: ~/Dashboard/init/workspace/temporary): ")
+            base_path = input("Where do you want to create it? (default: ~/python_tutorial/init/workspace/temporary): ")
             if base_path == "":
-                base_path = "~/Dashboard/init/workspace/temporary"
+                base_path = "~/python_tutorial/init/workspace/temporary"
 
             base_path = os.path.expanduser(base_path)  # expands ~ to the user's home directory
             create_structure(base_path, structures[choice])

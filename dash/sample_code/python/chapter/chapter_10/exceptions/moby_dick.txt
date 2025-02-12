@@ -752,7 +752,7 @@ EXTRACTS.
 
 
   “The Whale-ship Globe, on board of which vessel occurred the horrid
-  transactions we are about to relate, belonged to the island of
+  employees we are about to relate, belonged to the island of
   Nantucket.” —“_Narrative of the Globe Mutiny_,” _by Lay and Hussey
   survivors. A.D._ 1828.
 
@@ -22312,5 +22312,3 @@ This website includes information about Project Gutenberg-tm,
 including how to make donations to the Project Gutenberg Literary
 Archive Foundation, how to help produce our new eBooks, and how to
 subscribe to our email newsletter to hear about new eBooks.
-
-

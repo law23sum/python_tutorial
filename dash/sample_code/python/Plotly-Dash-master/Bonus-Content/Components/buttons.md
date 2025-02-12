@@ -3,7 +3,7 @@
 ### Welcome to the bonus content of "The Book of Dash".  :hugs:
 
 Here you will find additional examples of Plotly Dash components, layouts and style.  To learn more about making
-dashboards with Plotly Dash, and how to buy your copy of ["The Book of Dash"](https://nostarch.com/book-dash), please see the reference section
+python_tutorials with Plotly Dash, and how to buy your copy of ["The Book of Dash"](https://nostarch.com/book-dash), please see the reference section
 at the bottom of this article.
 
 This article will focus on the `html.Button` component from Plotly, and easy ways to style a button using the `dbc.Button` 
@@ -378,5 +378,3 @@ __Adam Schroeder__:
 __Chris Mayer__:
 
 🐍 Python + Crypto Email Academy: https://blog.finxter.com/subscribe/_
-
-
