@@ -19,7 +19,7 @@
     <article class="card bg-base-100 border border-base-200 shadow-sm h-full">
       <div class="card-body space-y-4">
         <div class="flex items-center justify-between text-sm uppercase tracking-wide">
-          <span class="badge badge-outline">{% blocktranslate trimmed %}Module {{ number }}{% endblocktranslate with number=forloop.counter %}</span>
+          <span class="badge badge-outline">{% blocktranslate trimmed with number=forloop.counter %}Module {{ number }}{% endblocktranslate %}</span>
           <span class="text-xs font-semibold opacity-70">{{ topic.tagline }}</span>
         </div>
         <div class="space-y-2">
