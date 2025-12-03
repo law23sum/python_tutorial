@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/stable/ref/settings/
 """
 
+import importlib.util
 import os
 import sys
 from pathlib import Path
@@ -15,6 +16,7 @@ from urllib.parse import quote, urlparse, urlunparse
 
 import environ
 from corsheaders.defaults import default_headers
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_lazy
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
@@ -92,12 +94,9 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "allauth",  # allauth account/registration management
     "allauth.account",
-    "allauth.headless",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.github",
-    "django_watchfiles",
-    "django_vite",
     "allauth.mfa",
     "rest_framework",
     "rest_framework.authtoken",
@@ -116,6 +115,13 @@ THIRD_PARTY_APPS = [
     "health_check.contrib.redis",
     "django_celery_beat",
 ]
+
+# Optional third-party apps that may not be installed in all environments (e.g., some Docker images)
+if importlib.util.find_spec("django_watchfiles") is not None:
+    THIRD_PARTY_APPS.append("django_watchfiles")
+
+if importlib.util.find_spec("django_vite") is not None:
+    THIRD_PARTY_APPS.append("django_vite")
 
 TUTORIAL_APPS = [
     "tutorial.apps.foundations.apps.FoundationsConfig",
@@ -146,6 +152,11 @@ PROJECT_APPS = [
     "apps.chat",
     "apps.ai.apps.AiConfig",
 ]
+
+ALLAUTH_HEADLESS_AVAILABLE = importlib.util.find_spec("allauth.headless") is not None
+if ALLAUTH_HEADLESS_AVAILABLE:
+    # Keep headless routes adjacent to the rest of the allauth apps when available.
+    THIRD_PARTY_APPS.insert(2, "allauth.headless")
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + TUTORIAL_APPS + PROJECT_APPS
 
@@ -264,7 +275,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Allauth setup
 
 ACCOUNT_ADAPTER = "apps.users.adapter.EmailAsUsernameAdapter"
-HEADLESS_ADAPTER = "apps.users.adapter.CustomHeadlessAdapter"
+HEADLESS_ADAPTER = None
+if ALLAUTH_HEADLESS_AVAILABLE:
+    HEADLESS_ADAPTER = "apps.users.adapter.CustomHeadlessAdapter"
 ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*"]
 
@@ -292,6 +305,8 @@ SOCIALACCOUNT_FORMS = {
 
 FRONTEND_ADDRESS = env("FRONTEND_ADDRESS", default="http://localhost:5174")
 USE_HEADLESS_URLS = env.bool("USE_HEADLESS_URLS", default=False)
+if USE_HEADLESS_URLS and not ALLAUTH_HEADLESS_AVAILABLE:
+    raise ImproperlyConfigured("USE_HEADLESS_URLS requires the django-allauth headless extra to be installed.")
 if USE_HEADLESS_URLS:
     # These URLs will use the React front end instead of the Django views
     HEADLESS_FRONTEND_URLS = {

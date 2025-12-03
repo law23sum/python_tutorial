@@ -3,7 +3,11 @@ from typing import Any
 from allauth.account import app_settings
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.utils import user_email, user_field
-from allauth.headless.adapter import DefaultHeadlessAdapter
+
+try:
+    from allauth.headless.adapter import DefaultHeadlessAdapter
+except ImportError:
+    DefaultHeadlessAdapter = DefaultAccountAdapter
 from allauth.mfa.models import Authenticator
 from django.utils.translation import gettext_lazy as _
 

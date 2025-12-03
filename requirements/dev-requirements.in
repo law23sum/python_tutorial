@@ -1,0 +1,8 @@
+-c requirements.txt
+channels[daphne]
+django_watchfiles
+django-debug-toolbar
+pip-tools
+pre-commit
+black
+isort

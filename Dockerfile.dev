@@ -1,0 +1,34 @@
+FROM python:3.11-bookworm
+ENV PYTHONUNBUFFERED=1
+
+# install node/npm
+RUN \
+  echo "deb https://deb.nodesource.com/node_20.x bookworm main" > /etc/apt/sources.list.d/nodesource.list && \
+  wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
+  apt-get update && \
+  apt-get install -yqq nodejs
+
+# required on M2 / ARM architecture
+RUN apt-get install -yqq libpq-dev
+
+# install gettext for translations
+RUN apt-get -yqq install gettext
+
+# create code directory
+RUN mkdir /code
+WORKDIR /code
+
+# install python requirements
+RUN pip install --upgrade pip
+
+# copy just requirements and install before rest of code to avoid having to
+# reinstall packages during build every time code changes
+# project stores requirement files in the /requirements/ directory
+COPY requirements/requirements.txt requirements.txt
+COPY requirements/dev-requirements.txt dev-requirements.txt
+COPY requirements requirements/
+# install base app requirements (celery, django, etc.) plus dev tooling
+RUN pip install -r requirements.txt -r dev-requirements.txt
+
+# copy code files
+COPY . /code/

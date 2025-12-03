@@ -39,7 +39,7 @@ dependencies = [
     "celery-progress",
     "celery[redis]",
     "dj-stripe>=2.9,<2.10",
-    "django-allauth[socialaccount,mfa,headless]>=65.13.0",
+    "django-allauth[headless,mfa,socialaccount]>=65.13.0",
     "django-anymail[mailgun]", # email services
     "django-browser-reload",
     "django-celery-beat",

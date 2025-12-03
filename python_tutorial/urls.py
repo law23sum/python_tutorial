@@ -40,7 +40,6 @@ urlpatterns = [
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
     path("accounts/", include("allauth.urls")),
-    path("_allauth/", include("allauth.headless.urls")),
     path("users/", include("apps.users.urls")),
     path("subscriptions/", include("apps.subscriptions.urls")),
     path("", include("apps.web.urls")),
@@ -72,6 +71,9 @@ urlpatterns = [
     path("ai_images/", include("apps.ai_images.urls")),
     path("chat/", include("apps.chat.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if getattr(settings, "ALLAUTH_HEADLESS_AVAILABLE", False):
+    urlpatterns.append(path("_allauth/", include("allauth.headless.urls")))
 
 if settings.ENABLE_DEBUG_TOOLBAR:
     urlpatterns.append(path("__debug__/", include("debug_toolbar.urls")))

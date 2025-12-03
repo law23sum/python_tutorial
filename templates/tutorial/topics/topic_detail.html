@@ -7,7 +7,7 @@
     <article class="card bg-base-100 shadow-xl">
       <div class="card-body space-y-6">
         <div class="space-y-2">
-          <p class="font-mono text-sm opacity-70 uppercase tracking-wide">{{ topic.slug|title }}</p>
+          <p class="font-mono text-sm opacity-70 uppercase tracking-wide">{{ topic.tagline }}</p>
           <h1 class="card-title text-4xl">{{ topic.title }}</h1>
           <p class="text-lg opacity-80">{{ topic.summary }}</p>
         </div>
@@ -16,9 +16,9 @@
             <h2 class="text-xl font-semibold mb-2">{% trans "What you'll focus on" %}</h2>
             <p class="opacity-80">
               {% blocktranslate trimmed %}
-              Each subject includes hands-on walkthroughs, prompts for pair-programming, and follow-up projects to
-              reinforce your understanding. Start by reviewing the key concepts, then explore the guided exercises
-              highlighted for this topic.
+              Each subject now maps to the modern Python industry table of contents. Review the curated sections below,
+              identify the building blocks you have mastered, and highlight the ones that still need practice reps in
+              real projects.
               {% endblocktranslate %}
             </p>
           </div>
@@ -31,17 +31,33 @@
             </ol>
           </div>
         </div>
-        <div class="alert alert-info">
-          <div>
-            <h3 class="font-semibold">{% trans "Coming soon" %}</h3>
-            <p class="opacity-80">
-              {% blocktranslate trimmed %}
-              Detailed lessons for {{ topic.title }} are being ported into this project. Check back soon for code labs,
-              screencasts, and additional readings.
-              {% endblocktranslate %}
-            </p>
+        {% if topic.sections %}
+        <div class="space-y-6">
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-semibold">{% trans "Industry scope" %}</h2>
+            <span class="badge badge-outline">{% blocktranslate trimmed with count=topic.sections|length %}{{ count }} focus areas{% endblocktranslate %}</span>
+          </div>
+          <div class="space-y-4">
+            {% for section in topic.sections %}
+            <section class="rounded-2xl border border-base-200 bg-base-200/40 p-5 space-y-3">
+              <div>
+                <h3 class="text-lg font-semibold">{{ section.title }}</h3>
+                {% if section.description %}
+                <p class="opacity-80">{{ section.description }}</p>
+                {% endif %}
+              </div>
+              {% if section.items %}
+              <ul class="list-disc list-inside space-y-1 opacity-90">
+                {% for item in section.items %}
+                <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </section>
+            {% endfor %}
           </div>
         </div>
+        {% endif %}
       </div>
     </article>
     <aside class="card bg-base-200 border border-base-300">
