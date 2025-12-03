@@ -3,7 +3,6 @@ from unittest.mock import patch
 from django import template
 from django.test import SimpleTestCase, override_settings
 
-from apps.web.meta import websocket_absolute_url
 from apps.web.templatetags.meta_tags import get_image_url
 from apps.web.tests.base import TEST_STORAGES
 
@@ -60,15 +59,3 @@ The URL is {% absolute_url terms_link %}
             mock_get_server_root.return_value = "https://example.com"
             template_object = template.Template(template_text)
             return template_object.render(template.Context()).strip()
-
-
-class WebsocketUrlTestCase(SimpleTestCase):
-    def test_http(self):
-        with patch("apps.web.meta.get_server_root") as mock_get_server_root:
-            mock_get_server_root.return_value = "http://example.com"
-            self.assertEqual("ws://example.com/websocket/", websocket_absolute_url("/websocket/"))
-
-    def test_https(self):
-        with patch("apps.web.meta.get_server_root") as mock_get_server_root:
-            mock_get_server_root.return_value = "https://example.com"
-            self.assertEqual("wss://example.com/websocket/", websocket_absolute_url("/websocket/"))

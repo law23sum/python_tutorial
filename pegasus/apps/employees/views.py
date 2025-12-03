@@ -12,6 +12,9 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.api.helpers import get_user_from_request
+from apps.api.permissions import IsAuthenticatedOrHasUserAPIKey
+
 from .forms import EmployeeForm
 from .models import Employee
 from .serializers import AggregateEmployeeDataSerializer, EmployeeSerializer
@@ -70,12 +73,76 @@ def delete_employee(request, employee_id):
     return HttpResponseRedirect(reverse("pegasus_employees:django_object_lifecycle"))
 
 
+@login_required
+def employee_list_htmx(request):
+    return render(
+        request,
+        "pegasus/employees/htmx_object_lifecycle.html",
+        {"active_tab": "object_lifecycle", "employees": Employee.objects.filter(user=request.user)},
+    )
+
+
+@login_required
+def new_employee_row_htmx(request):
+    return _add_edit_employee_htmx(request)
+
+
+@login_required
+def edit_employee_row_htmx(request, employee_id):
+    employee = get_object_or_404(Employee, user=request.user, id=employee_id)
+    return _add_edit_employee_htmx(request, employee)
+
+
+def _add_edit_employee_htmx(request, employee=None):
+    if request.method == "POST":
+        form = EmployeeForm(request.POST, instance=employee)
+        if form.is_valid():
+            employee = form.save(commit=False)
+            employee.user = request.user
+            employee.save()
+            return HttpResponseRedirect(reverse("pegasus_employees:htmx_get_employee", args=[employee.id]))
+    else:
+        form = EmployeeForm(instance=employee)
+
+    return render(
+        request,
+        "pegasus/employees/htmx/edit_employee_row.html",
+        {
+            "employee": employee,
+            "form": form,
+        },
+    )
+
+
+def empty_htmx(request):
+    return HttpResponse("")
+
+
+@login_required
+def get_employee_row_htmx(request, employee_id):
+    employee = get_object_or_404(Employee, user=request.user, id=employee_id)
+    return render(
+        request,
+        "pegasus/employees/htmx/employee_row.html",
+        {
+            "employee": employee,
+        },
+    )
+
+
+@require_http_methods(["DELETE"])
+@login_required
+def delete_employee_htmx(request, employee_id):
+    employee = get_object_or_404(Employee, user=request.user, id=employee_id)
+    employee.delete()
+    return HttpResponse("")
 
 
 @method_decorator(login_required, name="dispatch")
 class ObjectLifecycleView(TemplateView):
     def get_context_data(self, **kwargs):
         return {
+            "active_tab": "object_lifecycle",
             "department_choices": [{"id": c[0], "name": c[1]} for c in Employee.DEPARTMENT_CHOICES],
         }
 
@@ -90,8 +157,23 @@ class ReactObjectLifecycleView(ObjectLifecycleView):
                 "framework_url": "https://reactjs.org/",
                 "framework_name": "React",
                 "framework_icon": static("images/pegasus/react-icon.png"),
-                "active_tab": "object_lifecycle",
                 "url_base": reverse("pegasus_employees:react_object_lifecycle"),
+            }
+        )
+        return context
+
+
+class VueObjectLifecycleView(ObjectLifecycleView):
+    template_name = "pegasus/employees/vue_object_lifecycle.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "framework_url": "https://vuejs.org/",
+                "framework_name": "Vue.js",
+                "framework_icon": static("images/pegasus/vue-icon.png"),
+                "url_base": reverse("pegasus_employees:vue_object_lifecycle"),
             }
         )
         return context
@@ -108,9 +190,11 @@ class ChartsView(TemplateView):
 
 
 class EmployeeDataAPIView(APIView):
+    permission_classes = (IsAuthenticatedOrHasUserAPIKey,)
+
     @extend_schema(operation_id="employees_aggregate_data", responses={200: AggregateEmployeeDataSerializer})
     def get(self, request):
-        user = request.user
+        user = get_user_from_request(request)
         data = user.employees.values("department").annotate(
             average_salary=Avg("salary"),
             total_cost=Sum("salary"),

@@ -1,4 +1,4 @@
-{% extends "web/app/app_base.html" %}
+{% extends "pegasus/examples/examples_base.html" %}
 {% load static %}
 {% block app %}
 <section class="app-card">
@@ -25,6 +25,32 @@
           <div class="buttons">
             <a href="{% url 'pegasus_employees:object_lifecycle_home' %}" class="pg-button-secondary">
               <span>View Employee App</span>
+              <span class="pg-icon">
+                <i class="fa fa-angle-double-right"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pg-column">
+      <div class="pg-card h-100">
+        <div class="pg-card-image">
+          <figure class="image pg-ratio-3x2">
+            <img class="img-fluid" src="{% static 'images/pegasus/celery-icon.png' %}" alt="Background Tasks">
+          </figure>
+        </div>
+        <div class="pg-card-body">
+          <div class="pg-content">
+            <h3>Background Tasks</h3>
+            <p>
+              Support background, long-running, or scheduled tasks easily with a working Celery
+              + front-end integration.
+            </p>
+          </div>
+          <div class="buttons">
+            <a href="{% url 'pegasus_examples:tasks' %}" class="pg-button-secondary">
+              <span>View Tasks</span>
               <span class="pg-icon">
                 <i class="fa fa-angle-double-right"></i>
               </span>
@@ -75,7 +101,7 @@
             </p>
           </div>
           <div class="buttons">
-            <a href="{% url 'pegasus_employees:charts' %}" class="pg-button-secondary">
+            <a href="{% url 'pegasus_examples:flags' %}" class="pg-button-secondary">
               <span>View Feature Flag example</span>
               <span class="icon">
                 <i class="fa fa-angle-double-right"></i>
@@ -89,20 +115,20 @@
       <div class="pg-card h-100">
         <div class="pg-card-image">
           <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/pegasus/landing-page-screenshot-small.png' %}" alt="Landing Page">
+            <img class="img-fluid" src="{% static 'images/pegasus/pricing-page-screenshot-small.png' %}" alt="Pricing Page">
           </figure>
         </div>
         <div class="pg-card-body">
           <div class="pg-content">
-            <h3>Landing Page</h3>
+            <h3>Pricing Page</h3>
             <p>
-              A beautiful, responsive, and easy-to-customize landing page to help
-              you tell your application's story.
+              Communicate your application's value with a simple, flexible
+              pricing page.
             </p>
           </div>
           <div class="buttons">
-            <a href="{% url 'pegasus_examples:landing_page' %}" class="pg-button-secondary">
-              <span>View Landing Page</span>
+            <a href="{% url 'pegasus_examples:pricing_page' %}" class="pg-button-secondary">
+              <span>View Pricing Page</span>
               <span class="pg-icon">
                 <i class="fa fa-angle-double-right"></i>
               </span>
@@ -111,30 +137,4 @@
         </div>
       </div>
     </div>
-    <div class="pg-column">
-      <div class="pg-card h-100">
-        <div class="pg-card-image">
-          <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/pegasus/celery-icon.png' %}" alt="Background Tasks">
-          </figure>
-        </div>
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>Background Tasks</h3>
-            <p>
-              Support background, long-running, or scheduled tasks easily with a working Celery
-              + front-end integration.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_examples:tasks' %}" class="pg-button-secondary">
-              <span>View Tasks</span>
-              <span class="pg-icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-{% endblock %}
+    {% endblock %}

@@ -1,0 +1,14 @@
+{% extends "web/app/app_base.html" %}
+{% load static %}
+{% load i18n %}
+{% block app %}
+  <section class="app-card">
+    <h1 class="pg-subtitle">{% translate "Sorry, you don't have access to this page" %}</h1>
+    <p>
+      {% blocktranslate trimmed %}
+        Only team administrators are allowed to manage subscriptions.
+        Please contact your administrator for access or to make this change.
+      {% endblocktranslate %}
+    </p>
+  </section>
+{% endblock %}

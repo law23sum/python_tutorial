@@ -1,249 +1,7 @@
-{% extends "web/app/app_base.html" %}
+{% extends "pegasus/examples/examples_base.html" %}
 {% load static %}
-{% load waffle_tags %}
+{% load django_vite %}
 {% block app %}
-<section class="app-card">
-  <h1 class="pg-title">Examples Gallery</h1>
-  <h2 class="pg-subtitle">
-    End-to-end, fully functional examples for your project's needs.
-  </h2>
-      <div class="pg-columns">
-    <div class="pg-column">
-      <div class="pg-card h-100">
-        <div class="pg-card-image">
-          <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/pegasus/object-demo-icons.png' %}" alt="Object Demo">
-          </figure>
-        </div>
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>Employee Lifecycle</h3>
-            <p>
-              A front-end for working with your database implemented in vanilla Django, React, Vue.js, and HTMX.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_employees:object_lifecycle_home' %}" class="pg-button-secondary">
-              <span>View Employee App</span>
-              <span class="pg-icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-column">
-      <div class="pg-card h-100">
-        <div class="pg-card-image">
-          <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/undraw/undraw_analytics.svg' %}" alt="Charts">
-          </figure>
-        </div>
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>Charts</h3>
-            <p>
-              Fully-integrated charts based on real data from your application.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_employees:charts' %}" class="pg-button-secondary">
-              <span>View Charts</span>
-              <span class="pg-icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="pg-columns mt-2">
-    <div class="pg-column">
-      <div class="pg-card h-100">
-        <div class="pg-card-image">
-          <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/pegasus/flags.png' %}" alt="Feature Flags">
-          </figure>
-        </div>
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>Feature Flags</h3>
-            <p>
-              Use Feature Flags to enable or disable portions of your site dynamically.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_employees:charts' %}" class="pg-button-secondary">
-              <span>View Feature Flag example</span>
-              <span class="icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-column">
-      <div class="pg-card h-100">
-        <div class="pg-card-image">
-          <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/pegasus/landing-page-screenshot-small.png' %}" alt="Landing Page">
-          </figure>
-        </div>
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>Landing Page</h3>
-            <p>
-              A beautiful, responsive, and easy-to-customize landing page to help
-              you tell your application's story.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_employees:charts' %}" class="pg-button-secondary">
-              <span>View Landing Page</span>
-              <span class="pg-icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-column">
-      <div class="pg-card h-100">
-        <div class="pg-card-image">
-          <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/pegasus/celery-icon.png' %}" alt="Background Tasks">
-          </figure>
-        </div>
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>Background Tasks</h3>
-            <p>
-              Support background, long-running, or scheduled tasks easily with a working Celery
-              + front-end integration.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_examples:tasks' %}" class="pg-button-secondary">
-              <span>View Tasks</span>
-              <span class="pg-icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-</section>
-<section>
-      <div class="pg-columns">
-    <div class="pg-column">
-      <div class="pg-card h-100">
-        <div class="pg-card-image">
-          <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/pegasus/django-icon.png' %}" alt="Django">
-          </figure>
-        </div>
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>Django Forms</h3>
-            <p>
-              <strong>Tried-and-true Django forms.</strong>
-              Great for rapid prototyping, or for those who don't want the overhead of fancy JavaScript frameworks.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_employees:react_object_lifecycle' %}" class="pg-button-secondary">
-              <span>Django Forms Demo</span>
-              <span class="pg-icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-column">
-      <div class="pg-card h-100">
-      
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>React</h3>
-            <p>
-              <strong>A single-page application built with React and React Router.</strong>
-              React is the most popular front-end framework in the world today.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_employees:react_object_lifecycle' %}" class="pg-button-secondary">
-              <span>React Demo</span>
-              <span class="pg-icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pg-column">
-      <div class="pg-card h-100">
-        <div class="pg-card-image">
-          <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/pegasus/htmx-icon.png' %}" alt="HTMX">
-          </figure>
-        </div>
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>HTMX</h3>
-            <p>
-              <strong>A single-page application built with HTMX.</strong>
-              HTMX allows building rich front-end experiences without writing any native JavaScript.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_employees:react_object_lifecycle' %}" class="pg-button-secondary">
-              <span>HTMX Demo</span>
-              <span class="pg-icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="pg-columns mt-2">
-    <div class="pg-column pg-column-one-third">
-      <div class="pg-card h-100">
-        <div class="pg-card-image">
-          <figure class="image pg-ratio-3x2">
-            <img class="img-fluid" src="{% static 'images/pegasus/vue-icon.png' %}" alt="Vue.js">
-          </figure>
-        </div>
-        <div class="pg-card-body">
-          <div class="pg-content">
-            <h3>Vue.js</h3>
-            <p>
-              <strong>A single-page application built with Vue.js.</strong>
-              Vue is a popular alternative to React, with an easier on-ramp to modern JavaScript and a die-hard fanbase.
-            </p>
-          </div>
-          <div class="buttons">
-            <a href="{% url 'pegasus_employees:react_object_lifecycle' %}" class="pg-button-secondary">
-              <span>Vue.js Demo</span>
-              <span class="pg-icon">
-                <i class="fa fa-angle-double-right"></i>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 <section class="app-card">
   <h3 class="pg-title">Tasks Example</h3>
   <p class="pg-subtitle">
@@ -278,107 +36,49 @@
     </div>
     <p>
       For more information about how this works see:
-      <a href="https://buildwithdjango.com/blog/post/celery-progress-bars/">
+      <a href="https://www.saaspegasus.com/guides/django-celery-progress-bars/">
         Building Progress Bars for the Web with Django and Celery
       </a>
     </p>
   </div>
 </section>
-<section class="app-card">
-  <h2 class="pg-subtitle">Feature Flags Example</h2>
-  <div class="pg-content">
-      <p>Pegasus uses <a href="https://waffle.readthedocs.io/en/stable/" target="_blank">Waffle</a> to provide feature flag support.</p>
-      <p>This example shows the usage of Waffle in Python, JavaScript and Django templates.</p>
-      <p>A single flag has been created called <strong>'example-flag'</strong>. It is not enabled for any users but
-      it has been created with 'test mode' active which allows it to be enabled by specifying
-          a URL parameter: <em>'dwft_example-flag'</em>
-      </p>
-      <p>
-          <a href="?dwft_example-flag=1" class="pg-button-secondary">Enable</a>
-          <a href="?dwft_example-flag=0" class="pg-button-secondary">Disable</a>
-      </p>
-      <p>
-          Flag check using Django template tag:
-          {% flag "example-flag" %}
-          <span class="pg-badge-success">enabled</span>
-          {% else %}
-          <span class="pg-badge-default">disabled</span>
-          {% endflag %}
-          <pre><code class="language-django">{% verbatim %}{% flag "example-flag" %}
-<span class="pg-badge-success">enabled</span>
-{% else %}
-<span class="pg-badge-default">disabled</span>
-{% endflag %}{% endverbatim %}</code></pre>
-      </p>
-      <p>
-          Flag check in JavaScript: <span id="example-flag"></span>
-          <pre><code class="language-javascript">const example_flag_active = waffle.flag_is_active('example-flag')
-console.log(`Example flag is active: ${example_flag_active}`);
-if (example_flag_active) {
-  el.innerText = 'enabled';
-  el.classList.add('is-success');
-} else {
-  el.innerText = 'disabled';
-  el.classList.add('is-default');
-}</code></pre>
-  </div>
-    {% block page_head %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/tokyo-night-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/languages/django.min.js"></script>
-{% endblock %}
-</section>
 {% endblock %}
 {% block page_js %}
-    <script src="{% static 'celery_progress/celery_progress.js' %}"></script>
-    <script src="{% static 'js/app-bundle.js' %}"></script>
-    <script>
-    const App = SiteJS.app;
+  <script src="{% static 'celery_progress/celery_progress.js' %}" defer></script>
+  {% vite_asset 'assets/javascript/app.js' %}
+  <script>
     const apiUrl = "{% url 'pegasus_examples:tasks_api' %}";
     const progressUrl = "{% url 'celery_progress:task_status' 'task-id-stub' %}";
     document.addEventListener("DOMContentLoaded", function () {
-        var trigger = document.getElementById('task-starter');
-        trigger.addEventListener('click', function (e) {
-            e.preventDefault();
-            var pb = document.getElementById('progress-bar');
-            pb.style.display = 'inherit';
-            fetch(apiUrl, {
-                method: 'post',
-                credentials: 'same-origin',
-                headers: {
-                  'X-CSRFToken': App.Cookies.get('csrftoken'),
-                }
-            }).then(
-                function (response) {
-                    return response.text();
-                }).then(function (text) {
-                    var taskUrl = progressUrl.replace('task-id-stub', text);
-                    CeleryProgressBar.initProgressBar(taskUrl, {
-                        onProgress: function (progressBarElement, progressBarMessageElement, progress) {
-                            progressBarElement.style.width = progress.percent + "%";
-                            progressBarMessageElement.innerHTML = progress.current + ' of ' + progress.total + ' processed.';
-                        },
-                    });
-                  })
-                  .catch(function (error) {
-                    console.error('Request failed', error);
-                });
-                e.preventDefault();
-        }, false);
+      const App = SiteJS.app;
+      var trigger = document.getElementById('task-starter');
+      trigger.addEventListener('click', function (e) {
+          e.preventDefault();
+          var pb = document.getElementById('progress-bar');
+          pb.style.display = 'inherit';
+          fetch(apiUrl, {
+              method: 'post',
+              credentials: 'same-origin',
+              headers: {
+                'X-CSRFToken': App.Cookies.get('csrftoken'),
+              }
+          }).then(
+              function (response) {
+                  return response.text();
+              }).then(function (text) {
+                  var taskUrl = progressUrl.replace('task-id-stub', text);
+                  CeleryProgressBar.initProgressBar(taskUrl, {
+                      onProgress: function (progressBarElement, progressBarMessageElement, progress) {
+                          progressBarElement.style.width = progress.percent + "%";
+                          progressBarMessageElement.innerHTML = progress.current + ' of ' + progress.total + ' processed.';
+                      },
+                  });
+                })
+                .catch(function (error) {
+                  console.error('Request failed', error);
+              });
+              e.preventDefault();
+      }, false);
     });
-    </script>
-<script>
-  {% wafflejs %}
-  let el = document.getElementById("example-flag");
-  const example_flag_active = waffle.flag_is_active('example-flag')
-  console.log(`Example flag is active: ${example_flag_active}`);
-  if (example_flag_active) {
-    el.innerText = 'enabled';
-    el.classList.add('pg-badge-success');
-  } else {
-    el.innerText = 'disabled';
-    el.classList.add('pg-badge-default');
-  }
-</script>
-<script>hljs.highlightAll();</script>
+  </script>
 {% endblock %}

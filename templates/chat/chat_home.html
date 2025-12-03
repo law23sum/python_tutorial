@@ -2,38 +2,75 @@
 {% load static %}
 {% load i18n %}
 {% block app %}
-<div class="app-card">
-  <div class="flex justify-between">
-    <div>
-      <h1 class="pg-title">{% translate "My Chats" %}</h1>
-      <h2 class="pg-subtitle">{% translate "Manage your chats here." %}</h2>
+<section class="app-card">
+  <div class="pg-columns pg-columns-reversed pg-align-items-center">
+    <div class="pg-column-one-third">
+      <img class="img-fluid" src="{% static 'images/chat/chatgpt-logo.png' %}" alt="ChatGPT Logo">
     </div>
-    <div class="pg-text-right">
-      <form method="post" action="{% url 'chat:start_chat' %}" >
-        {% csrf_token %}
-        <input class="pg-button-primary" type="submit" value="{% translate 'New Chat' %}">
-      </form>
+    <div class="pg-column">
+      <h1 class="pg-title">{% translate "AI Chat" %}</h1>
+      <div class="pg-content">
+        <p>
+          {% blocktranslate trimmed %}
+          Use <a href="https://en.wikipedia.org/wiki/Large_language_model" target="_blank">LLMs</a> to automatically
+          respond to user input or questions.
+          {% endblocktranslate %}
+        </p>
+        <p>
+          {% blocktranslate trimmed %}
+          You can create full-page chat experiences or use the chat widget to add AI-powered chat to any page in your app.
+          Try it by clicking the "Chat" button on the right of the page.
+          {% endblocktranslate %}
+        </p>
+        <p>
+          {% blocktranslate trimmed %}
+          You can also add agentic behavior. Try the "Weather Agent Chat" button to create a chat with an AI agent,
+          that has access to the logged in user's information, and tools to lookup local weather and send emails.
+          {% endblocktranslate %}
+        </p>
+      </div>
     </div>
   </div>
+</section>
+<div class="app-card">
+  <div>
+    <h1 class="pg-title">{% translate "My Chats" %}</h1>
+    <h2 class="pg-subtitle">{% translate "Manage your chats here." %}</h2>
+  </div>
+  <div class="mb-2 pg-inline-buttons">
+    <form method="post" action="{% url 'chat:start_chat' %}" >
+      {% csrf_token %}
+      <input type="hidden" name="chat_type" value="agent">
+      <input type="hidden" name="agent_type" value="weather">
+      <input class="pg-button-primary" type="submit" value="{% translate 'New Agent Chat' %}">
+    </form>
+    <form method="post" action="{% url 'chat:start_chat' %}" >
+      {% csrf_token %}
+      <input type="hidden" name="chat_type" value="chat">
+      <input class="pg-button-secondary" type="submit" value="{% translate 'New Chat' %}">
+    </form>
+  </div>
   {% if chats.count %}
-    <div class="table-responsive">
-        <table class="table pg-table">
-          <thead>
-          <tr>
-            <th class="pg-text-left">{% translate "Chat" %}</th>
-            <th class="pg-text-left">{% translate "Started On" %}</th>
-          </tr>
-          </thead>
-          <tbody>
-          {% for chat in chats.all %}
-            <tr>
-              <td><a class="link" href="{% url 'chat:single_chat' chat.id %}">{{ chat.name }}</a></td>
-              <td>{{ chat.created_at }}</td>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-    </div>
+  <div class="table-responsive">
+    <table class="table pg-table">
+      <thead>
+        <tr>
+          <th class="pg-text-left">{% translate "Chat" %}</th>
+          <th class="pg-text-left">{% translate "Type" %}</th>
+          <th class="pg-text-left">{% translate "Started On" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for chat in chats.all %}
+        <tr>
+          <td><a class="link" href="{% url 'chat:single_chat' chat.id %}">{{ chat.name }}</a></td>
+          <td>{{ chat.chat_type }}{% if chat.agent_type %} ({{ chat.agent_type }}){% endif %}</td>
+          <td>{{ chat.created_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   {% endif %}
 </div>
 {% endblock %}

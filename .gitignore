@@ -1,22 +1,30 @@
 .idea
+.vscode
+*.code-workspace
 *.pyc
 *~
+.venv
+/.vite/
+venv
 db.sqlite3
 .sass-cache/
-
-
+celerybeat-schedule
+python_tutorial/localsettings.py
+python_tutorial/local.py
 static_root/
 node_modules/
-
+# ai assistants
+.claude/settings.local.json
+openapitools.json
 media/
 docs/_build
 _dist/
-
+.env
+.env.production
 .DS_Store
 .direnv
 .envrc
-
-# uncomment these lines after setting up the front-end build pipeline in dev and production
-# static/css/
-# static/js/
-/.venv/
+# compiled static files are built in dev/deploy
+static/css/
+static/js/
+static/.vite/

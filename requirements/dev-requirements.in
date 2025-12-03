@@ -1,7 +1,0 @@
--c requirements.txt
-channels[daphne]
-django-debug-toolbar
-pip-tools
-pre-commit
-black
-isort

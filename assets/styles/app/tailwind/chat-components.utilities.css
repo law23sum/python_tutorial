@@ -1,0 +1,6 @@
+@utility pg-chat-message {
+  @apply px-3 py-2 rounded-lg flex;
+  & svg {
+    @apply w-6 h-6;
+  }
+}

@@ -1,0 +1,81 @@
+.pg-avatar {
+  @apply object-cover w-8 h-8 rounded-full;
+}
+
+.pg-chat-wrapper {
+  @apply w-full h-dvh flex flex-col;
+}
+
+/* Override for overlay mode to use container height instead of viewport height */
+.pg-chat-wrapper.overlay-mode {
+  @apply h-full;
+}
+
+.pg-chat-tab {
+  @apply fixed z-40 bg-primary text-primary-content shadow-sm cursor-pointer transition-all duration-300;
+  /* Mobile: bottom-right floating icon */
+  @apply bottom-4 right-4 p-3 rounded-full;
+  /* Desktop: right-side tab - override mobile positioning */
+  @apply md:bottom-auto md:top-1/2 md:right-0 md:transform md:-translate-y-1/2 md:px-3 md:py-4 md:rounded-l-lg md:rounded-r-none;
+}
+
+.pg-chat-tab:hover {
+  background-color: color-mix(in oklab, var(--primary), #000 7%);
+}
+
+.pg-chat-overlay {
+  @apply fixed top-0 right-0 h-screen w-96 bg-base-100 border-l border-base-300 shadow-sm z-50 flex flex-col;
+}
+
+.pg-chat-overlay-header {
+  @apply flex justify-between items-center p-4 border-b border-base-300 flex-shrink-0;
+}
+
+.pg-chat-overlay-content {
+  @apply flex-1 overflow-hidden;
+}
+
+.pg-chat-pane {
+  @apply overflow-y-auto flex flex-col grow p-4 space-y-4 bg-base-100;
+}
+
+.pg-chat-icon {
+  @apply min-w-[32px] mt-1 text-right font-bold;
+}
+
+.pg-message-sender {
+  @apply text-xs;
+}
+
+.pg-message-contents {
+  @apply prose max-w-none lg:prose-lg;
+  & p {
+    @apply my-0;
+  }
+
+}
+
+.pg-chat-message-system {
+  @apply pg-chat-message bg-base-100 text-base-content;
+
+  & .pg-message-contents {
+    @apply text-base-content;
+  }
+}
+
+.pg-chat-message-user {
+  @apply pg-chat-message bg-base-300 text-base-content;
+
+  & .pg-message-contents {
+    @apply text-base-content;
+  }
+}
+
+.pg-chat-input-bar {
+  @apply w-full p-2 border border-base-300 rounded-md mb-4 flex items-center;
+}
+
+/* Override for overlay mode to remove bottom margin from input bar */
+.pg-chat-wrapper.overlay-mode .pg-chat-input-bar {
+  @apply mb-0;
+}

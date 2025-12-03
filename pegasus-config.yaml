@@ -1,41 +1,67 @@
+cli:
+  app_directory: apps
+  base_model: apps.utils.models.BaseModel
+  css_framework: tailwind
+  module_path: apps
+  template_directory: templates
+  use_teams: false
 default_context:
-  _pegasus_version: '2023.12'
-  author_name: Christian
+  _pegasus_version: 2025.11.2
+  api_framework: drf
+  author_name: Christian Dixon
+  bundler: vite
   ci: github_actions
-  css_framework: bootstrap
-  css_theme: default
+  css_framework: tailwind
   database: postgres
-  deploy_platform: digital_ocean_app_platform
-  description: python tutorial
-  docker_setup: arm64
-  domain_name: localhost:8000
-  email: codenestcompany@gmail.com
-  enable_github_login: n
-  enable_google_login: n
+  deploy_platform: heroku_docker
+  description: The less boilerplate the better.
+  docker_mode: services
+  docker_setup: default
+  domain_name: 0.0.0.0:8000
+  email: cswm7876@yahoo.com
+  enable_github_login: y
+  enable_google_login: y
   enable_twitter_login: n
   front_end_framework: react
-  include_static_files: y
-  marketing_email_platform: email_octopus
+  github_username: codenestcompany
+  include_static_files: n
+  marketing_email_platform: mailchimp
+  plugins:
+  - chat
+  - ai_images
   post_process: y
-  project_name: PythonTutorial
+  project_name: Python Tutorial
   project_slug: python_tutorial
+  python_package_manager: uv
+  standalone_front_end: vite
   stripe_payment_mode: checkout
   subscription_billing_model: default
   subscription_pricing_ui: in_app
+  type_checker: none
   use_2fa: y
   use_admin_docs: y
-  use_api_keys: n
-  use_async_example: y
-  use_cloud_media_storage: y
+  use_ai_rules_agents: y
+  use_ai_rules_claude: y
+  use_ai_rules_cursor: y
+  use_ai_rules_junie: y
+  use_api_auth: y
+  use_api_keys: y
+  use_async: n
+  use_auto_reload: y
+  use_celery: y
+  use_cloud_media_storage: n
+  use_dark_mode: y
   use_debug_toolbar: y
-  use_docker: y
-  use_ecommerce_example: y
+  use_ecommerce_example: n
   use_examples: y
-  use_impersonation: n
-  use_openai: y
+  use_flowbite: y
+  use_health_checks: y
+  use_impersonation: y
   use_sentry: y
-  use_subscriptions: n
+  use_shadcn: y
+  use_subscriptions: y
   use_teams: n
   use_teams_example: n
   use_translations: y
-  use_wagtail: y
+  use_wagtail: n
+  use_watchfiles: y

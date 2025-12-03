@@ -1,14 +1,81 @@
-[tool.isort]
-py_version = 311
-filter_files = true
-profile = 'black'
-line_length = 120
-
-[tool.black]
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+extend-exclude = [
+    ".direnv",
+    ".git",
+    ".ruff_cache",
+    "node_modules",
+    "migrations",
+]
 line-length = 120
-target-version = ['py311']
-exclude = '''
-(
-  | migrations
-)
-'''
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+fixable = [
+    "ALL",
+]
+unfixable = []
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.setuptools]
+py-modules = []
+
+[project]
+name = "python-tutorial"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "Django>=5.2.8",
+    "celery",
+    "celery-progress",
+    "celery[redis]",
+    "dj-stripe>=2.9,<2.10",
+    "django-allauth[socialaccount,mfa,headless]>=65.13.0",
+    "django-anymail[mailgun]", # email services
+    "django-browser-reload",
+    "django-celery-beat",
+    "django-cors-headers",
+    "django-environ",
+    "django-health-check",
+    "django-hijack",
+    "django-vite>=3.1.0",
+    "django-waffle",
+    "django-watchfiles",
+    "djangorestframework",
+    "djangorestframework-api-key",
+    "docutils",
+    "drf-spectacular",
+    "httpx>=0.28.1",
+    "litellm<1.77.2",
+    "mailchimp3",
+    "markdown",
+    "nh3>=0.2.21",
+    "openai",
+    "psycopg2-binary",
+    "pydantic-ai>=1.0",
+    "python-dateutil",
+    "redis",
+    "requests",
+    "sentry-sdk[django]>=2.33.2",
+    "stripe<12.0",
+    "whitenoise[brotli]",
+]
+
+[dependency-groups]
+dev = [
+    "django-debug-toolbar",
+    "pre-commit",
+    "ruff>=0.13.1",
+]
+prod = [
+    "gunicorn",
+]

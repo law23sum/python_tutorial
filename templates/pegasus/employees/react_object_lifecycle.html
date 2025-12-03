@@ -1,0 +1,8 @@
+{% extends "pegasus/employees/object_lifecycle.html" %}
+{% load static %}
+{% load django_vite %}
+{% block framework_bundle %}
+  {% vite_react_refresh %}
+  {% vite_asset 'assets/javascript/pegasus/examples/react/react-object-lifecycle.jsx' %}
+{% endblock %}
+

@@ -1,12 +1,10 @@
-from typing import Dict
-
 from django.urls import reverse
 
 CHAT_PLACEHOLDER = "__chat_id__"
 TASK_PLACEHOLDER = "__task_id__"
 
 
-def get_chat_api_url_templates() -> Dict[str, str]:
+def get_chat_api_url_templates() -> dict[str, str]:
     def _get_chat_placeholder_url(url_name, extra_args=None):
         args = [999] + (extra_args or [])
         url = reverse(url_name, args=args)

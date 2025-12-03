@@ -14,5 +14,6 @@ class ExamplesHomeView(TemplateView):
 
 
 # import other views
-from .form_views import *
-from .tasks_views import *
+from .feature_flag_views import *  # noqa F401
+from .form_views import *  # noqa F401
+from .tasks_views import *  # noqa F401

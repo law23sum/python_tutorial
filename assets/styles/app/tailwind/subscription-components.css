@@ -1,0 +1,7 @@
+.plan {
+  @apply h-full px-8 py-4 border-4 rounded-md border-white;
+
+  &.is-selected {
+    @apply border-blue-500;
+  }
+}

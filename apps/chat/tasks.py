@@ -1,27 +1,21 @@
-import markdown
-import openai
+import litellm
+from asgiref.sync import async_to_sync
 from celery import shared_task
-from django.conf import settings
-from markdown.extensions.fenced_code import FencedCodeExtension
 
-from apps.chat.models import Chat, ChatMessage, MessageTypes
+from apps.chat.models import Chat, MessageTypes
+from apps.chat.prompts import get_chat_naming_prompt
 from apps.chat.serializers import ChatMessageSerializer
+from apps.chat.sessions import get_session
+from apps.chat.utils import get_llm_kwargs
 
 
 @shared_task(bind=True)
-def get_chatgpt_response(self, chat_id: int, message: str) -> str:
-    openai.api_key = settings.OPENAI_API_KEY
+def get_chat_response(self, chat_id: int, message: str) -> str:
     chat = Chat.objects.get(id=chat_id)
-    openai_response = openai.ChatCompletion.create(
-        model=settings.OPENAI_MODEL,
-        messages=chat.get_openai_messages(),
-    )
-    response_body = openai_response.choices[0].message.content.strip()
-    message = ChatMessage.objects.create(
-        chat_id=chat_id,
-        message_type=MessageTypes.AI,
-        content=response_body,
-    )
+    session = get_session(chat)
+
+    response = async_to_sync(session.get_response)()
+    message = async_to_sync(session.save_message)(response, MessageTypes.AI)
     return ChatMessageSerializer(message).data
 
 
@@ -30,31 +24,16 @@ def set_chat_name(chat_id: int, message: str):
     chat = Chat.objects.get(id=chat_id)
     if not message:
         return
-    elif len(message) < 20:
+    elif len(message) < 30:
         # for short messages, just use them as the chat name. the summary won't help
         chat.name = message
         chat.save()
     else:
         # set the name with openAI
-        openai.api_key = settings.OPENAI_API_KEY
-        system_naming_prompt = """
-    You are SummaryBot. When I give you an input, your job is to summarize the intent of that input.
-    Provide only the summary of the input and nothing else.
-    Summaries should be less than 100 characters long.
-    """
-        openai_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {
-                    "role": "system",
-                    "content": system_naming_prompt,
-                },
-                {
-                    "role": "user",
-                    "content": f"Summarize the following text: '{message}'",
-                },
-            ],
-        )
-        response_body = openai_response.choices[0].message.content.strip()
-        chat.name = response_body[:100]
+        messages = [
+            {"role": "developer", "content": get_chat_naming_prompt()},
+            {"role": "user", "content": f"Summarize the following text: '{message}'"},
+        ]
+        response = litellm.completion(messages=messages, **get_llm_kwargs())
+        chat.name = response.choices[0].message.content[:100].strip()
         chat.save()

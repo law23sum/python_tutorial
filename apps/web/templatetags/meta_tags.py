@@ -1,6 +1,5 @@
 from django import template
 from django.conf import settings
-from django.template.defaulttags import url
 from django.templatetags.static import static
 
 from apps.web import meta

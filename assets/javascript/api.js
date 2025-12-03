@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import {Configuration} from "./api-client";
+import {Configuration} from "api-client";
 
 
 export function getApiConfiguration(serverBaseUrl) {

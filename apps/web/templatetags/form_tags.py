@@ -21,10 +21,10 @@ def render_field(form_field, **attrs):
 
 @register.simple_tag
 def render_text_input(form_field, **attrs):
-    TEXT_INPUT_TEMPLATE = """<div class="mb-3" {% include "django/forms/attrs.html" %}>
-      <label for="{{ form_field.id_for_label }}" class="form-label">{{ form_field.label }}</label>
+    TEXT_INPUT_TEMPLATE = """<div class="w-full mt-2" {% include "django/forms/attrs.html" %}>
+      <label class="block mb-1 font-bold" for="{{ form_field.id_for_label }}">{{ form_field.label }}</label>
       {{ form_field }}
-      <small class="form-text text-muted">{{ form_field.help_text|safe }}</small>
+      <small class="pg-text-muted">{{ form_field.help_text|safe }}</small>
       {{ form_field.errors }}
     </div>
     """
@@ -33,10 +33,10 @@ def render_text_input(form_field, **attrs):
 
 @register.simple_tag
 def render_select_input(form_field, **attrs):
-    SELECT_INPUT_TEMPLATE = """<div class="mb-3" {% include "django/forms/attrs.html" %}>
-      <label for="{{ form_field.id_for_label }}" class="form-label">{{ form_field.label }}</label>
+    SELECT_INPUT_TEMPLATE = """<div class="w-full mt-2" {% include "django/forms/attrs.html" %}>
+      <label class="block mb-1 font-bold" for="{{ form_field.id_for_label }}">{{ form_field.label }}</label>
       {{ form_field }}
-      <small class="form-text text-muted">{{ form_field.help_text|safe }}</small>
+      <small class="pg-text-muted">{{ form_field.help_text|safe }}</small>
       {{ form_field.errors }}
     </div>
     """
@@ -46,14 +46,14 @@ def render_select_input(form_field, **attrs):
 @register.simple_tag
 def render_checkbox_input(form_field, **attrs):
     CHECKBOX_INPUT_TEMPLATE = """
-    <div class="mb-3" {% include "django/forms/attrs.html" %}>
-      <div class="form-check">
-        {{ form_field }}
-        <label class="form-check-label" for="flexCheckChecked">
+    <div class="w-full mt-2" {% include "django/forms/attrs.html" %}>
+      <div>
+        <label class="font-bold cursor-pointer flex items-center gap-2">
+          {{ form_field }}
           {{ form_field.label }}
         </label>
       </div>
-      <small class="form-text text-muted">{{ form_field.help_text|safe }}</small>
+      <small class="pg-text-muted">{{ form_field.help_text|safe }}</small>
       {{ form_field.errors }}
     </div>
     """

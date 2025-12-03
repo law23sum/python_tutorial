@@ -108,7 +108,7 @@ const cumulativeChartWithDates = (ctx, start, end, data, label, startValue) => {
   });
 
 }
-export const python_tutorialCharts = {
+export const DashboardCharts = {
   barChartWithDates: barChartWithDates,
   cumulativeChartWithDates: cumulativeChartWithDates,
 };

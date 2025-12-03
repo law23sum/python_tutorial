@@ -1,28 +1,31 @@
-import json
-
-import requests
 from django.conf import settings
+from mailchimp3 import MailChimp
+from mailchimp3.mailchimpclient import MailChimpError
 from sentry_sdk import capture_exception
 
 
-def using_mailing_list():
-    return settings.EMAIL_OCTOPUS_API_KEY and settings.EMAIL_OCTOPUS_LIST_ID
+def get_mailchimp_client():
+    if getattr(settings, "MAILCHIMP_API_KEY", None) and getattr(settings, "MAILCHIMP_LIST_ID", None):
+        return MailChimp(mc_api=settings.MAILCHIMP_API_KEY)
+    else:
+        return None
 
 
 def subscribe_to_mailing_list(email_address):
-    if not using_mailing_list():
+    client = get_mailchimp_client()
+    if not client:
         return
-    try:
-        add_contact_url = f"https://emailoctopus.com/api/1.6/lists/{settings.EMAIL_OCTOPUS_LIST_ID}/contacts"
-        parameters = {
-            "api_key": settings.EMAIL_OCTOPUS_API_KEY,
-            "email_address": email_address,
-            "tags": [
-                "site-signup",
-            ],
-        }
-        headers = {"Content-Type": "application/json"}
-        requests.post(add_contact_url, data=json.dumps(parameters), headers=headers)
-    except Exception as e:
-        # capture errors but don't crash
+
+    try:  # noqa: SIM105
+        client.lists.members.create_or_update(
+            settings.MAILCHIMP_LIST_ID,
+            email_address,
+            {
+                "email_address": email_address,
+                "status_if_new": "subscribed",
+            },
+        )
+    except MailChimpError as e:
+        # likely it's just that they were already subscribed so don't worry about it
+        # but do log to sentry
         capture_exception(e)

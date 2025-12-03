@@ -1,63 +1,45 @@
 {% load i18n %}
-{% load wagtailcore_tags %}
-<nav class="navbar navbar-light navbar-expand-md bg-white shadow-sm" >
-  <div class="container">
-    <a class="navbar-brand {% if request.path == '/' %}active{% endif %}" href="{% url 'web:home' %}">
-      {{project_meta.NAME}}
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-        {% slugurl 'blog' as blog_url %}
-        <li class="nav-item">
-          <a class="nav-link {% if blog_url in request.path %}active{% endif %}" href="{{ blog_url }}">
-            {% translate "Blog" %}
+<div class="navbar shadow-md">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <div class="lg:hidden">
+        <label tabindex="0" class="btn btn-ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+        </label>
+      </div>
+      <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow-2xs bg-base-100 rounded-box w-52 z-10">
+        {% block mobile_nav %}
+        <li>
+          <a class="{% if request.path == '/' %}active{% endif %}" href="{% url 'web:home' %}">
+            <div>{{project_meta.NAME}}</div>
           </a>
         </li>
-        {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link {% if '/pegasus/' in request.path %}active{% endif %}" href="{% url 'pegasus_examples:examples_home' %}">
-              {% translate "Examples Gallery" %}
-            </a>
-          </li>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="navbar-avatar" src="{{ user.avatar_url}}"> {% translate "My Account" %}
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <a class="dropdown-item" href="{% url 'users:user_profile' %}" >
-                    <span class="pg-icon"><i class="fa fa-user"></i></span><span>{% translate "Profile" %}</span>
-                  </a>
-                </li>
-                {% if user.has_usable_password %}
-                  <li>
-                    <a class="dropdown-item" href="{% url 'account_change_password' %}">
-                      <span class="pg-icon"><i class="fa fa-unlock-alt"></i></span><span>{% translate "Change Password" %}</span>
-                    </a>
-                  </li>
-                {% endif %}
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'account_logout' %}" >
-                    <span class="pg-icon"><i class="fa fa-sign-out"></i></span><span>{% translate "Sign out" %}</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </div>
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
-        </li>
-        {% endif %}
+        {% endblock %}
       </ul>
     </div>
   </div>
-</nav>
+  <div class="navbar-center hidden lg:flex">
+    <div role="tablist" class="tabs p-0">
+      <a class="tab {% if request.path == '/' %}tab-active{% endif %}" href="{% url 'web:home' %}">
+        <div>{{project_meta.NAME}}</div>
+      </a>
+    </div>
+  </div>
+  <div class="navbar-end">
+    {% if user.is_authenticated %}
+      <div role="tablist" class="tabs p-0">
+        <a class="tab {% if '/pegasus' in request.path %}tab-active{% endif %}" href="{% url 'pegasus_examples:examples_home' %}">
+          {% translate "Examples Gallery" %}
+        </a>
+      </div>
+    {% else %}
+    <a href="{% url 'account_signup' %}" class="btn btn-primary">
+      {% translate "Sign Up" %}
+    </a>
+    <a href="{% url 'account_login' %}" class="btn btn-outline ml-2">
+      {% translate "Sign In" %}
+    </a>
+    {% endif %}
+    {% include "web/components/dark_mode_selector.html" %}
+  </div>
+</div>

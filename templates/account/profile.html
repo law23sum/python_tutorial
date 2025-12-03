@@ -1,16 +1,21 @@
 {% extends "web/app/app_base.html" %}
 {% load static %}
+{% load django_vite %}
 {% block app %}
 <section class="app-card">
   {% include 'account/components/profile_form.html' %}
 </section>
 {% include 'account/components/2fa.html' %}
+<section class="app-card">
+  {% include 'account/components/social/social_accounts.html' %}
+</section>
+{% include 'account/components/api_keys.html' %}
 {% endblock %}
 {% block page_js %}
-<script src="{% static 'js/app-bundle.js' %}"></script>
+{% vite_asset 'assets/javascript/app.js' %}
 <script>
-  const App = SiteJS.app;
   document.addEventListener('DOMContentLoaded', () => {
+    const App = SiteJS.app;
     const uploadUrl = '{% url "users:upload_profile_image" %}';
     document.getElementById("profile-upload").onchange = function() {
       let files = document.getElementById("profile-upload").files;

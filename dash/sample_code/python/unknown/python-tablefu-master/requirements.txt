@@ -1,3 +1,0 @@
-distribute==0.6.19
-latimes-statestyle==0.1.2
-wsgiref==0.1.2

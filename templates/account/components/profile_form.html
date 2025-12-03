@@ -19,6 +19,9 @@
     <form method="post">
       {% csrf_token %}
       {% render_text_input form.email %}
+      {% if user.emailaddress_set.count > 1 %}
+        <div class="pg-help"><a href="{% url "account_email" %}" class="link">{%  translate "Manage email addresses" %}</a></div>
+      {% endif %}
       {% render_text_input form.first_name %}
       {% render_text_input form.last_name %}
       {% if form.fields.language.choices %}
@@ -27,11 +30,11 @@
       {% render_select_input form.timezone %}
       <div class="pg-help">
         {% if user.timezone %}
-          {% blocktranslate with  user_tz=user.timezone %}
+          {% blocktranslate trimmed with user_tz=user.timezone %}
             Your current timezone is {{ user_tz }}, where it is {{ now }}.
           {% endblocktranslate %}
         {% else %}
-          {% blocktranslate %}
+          {% blocktranslate trimmed %}
             You have not set a timezone, and are using the system timezone of {{ current_tz }} where it is {{ now }}.
           {% endblocktranslate %}
         {% endif %}

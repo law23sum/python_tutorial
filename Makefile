@@ -1,7 +1,12 @@
+include custom.mk
+
+setup-env:
+	@[ ! -f ./.env ] && cp ./.env.example ./.env || echo ".env file already exists."
+	@[ ! -f ./frontend/.env ] && cp ./frontend/.env.example ./frontend/.env || echo "frontend .env file already exists."
+
 start: ## Start the docker containers
 	@echo "Starting the docker containers"
 	@docker compose up
-	@echo "Containers started - http://localhost:8000"
 
 stop: ## Stop Containers
 	@docker compose down
@@ -11,80 +16,97 @@ restart: stop start ## Restart Containers
 start-bg:  ## Run containers in the background
 	@docker compose up -d
 
-build: ## Build Containers
-	@docker compose build
+dev: ## Start Django and npm dev servers
+	@./scripts/dev.sh
 
-ssh: ## SSH into running web container
-	docker compose exec web bash
+django: ## Run Django dev server
+	@uv run manage.py runserver
+
+celery: ## Start Celery and celery beat
+	@uv run celery -A python_tutorial worker -l INFO --beat --pool=solo
+
+manage: ## Run any manage.py command. E.g. `make manage ARGS='createsuperuser'`
+	@uv run manage.py ${ARGS}
 
 migrations: ## Create DB migrations in the container
-	@docker compose exec web python manage.py makemigrations
+	@uv run manage.py makemigrations
 
 migrate: ## Run DB migrations in the container
-	@docker compose exec web python manage.py migrate
+	@echo "Waiting for database to be ready..."
+	@until docker compose exec db pg_isready -d python_tutorial -U postgres >/dev/null 2>&1; do echo "Database not ready, waiting..."; sleep 2; done
+	@echo "Database is ready, running migrations..."
+	@uv run manage.py migrate
 
-translations:
-	@docker compose exec web python manage.py makemessages --all --ignore node_modules --ignore venv
-	@docker compose exec web python manage.py makemessages -d djangojs --all --ignore node_modules --ignore venv
-	@docker compose exec web python manage.py compilemessages
+translations:  ## Rebuild translation files
+	@uv run manage.py makemessages --all --ignore node_modules --ignore venv --ignore .venv
+	@uv run manage.py makemessages -d djangojs --all --ignore node_modules --ignore venv --ignore .venv
+	@uv run manage.py compilemessages --ignore venv --ignore .venv
 
 shell: ## Get a Django shell
-	@docker compose exec web python manage.py shell
+	@uv run manage.py shell
 
 dbshell: ## Get a Database shell
 	@docker compose exec db psql -U postgres python_tutorial
 
 test: ## Run Django tests
-	@docker compose exec web python manage.py test
+	@uv run manage.py test ${ARGS}
 
-init: start-bg migrations migrate bootstrap_content  ## Quickly get up and running (start containers and migrate DB)
+init: setup-env start-bg migrations migrate npm-install-all  ## Quickly get up and running (start containers and bootstrap DB)
 
-pip-compile: ## Compiles your requirements.in file to requirements.txt
-	@docker compose exec web pip-compile requirements/requirements.in
-	@docker compose exec web pip-compile requirements/dev-requirements.in
-	@docker compose exec web pip-compile requirements/prod-requirements.in
+uv: ## Run a uv command
+	@uv $(filter-out $@,$(MAKECMDGOALS))
 
-requirements: pip-compile build restart  ## Rebuild your requirements and restart your containers
+uv-sync: ## Sync dependencies
+	@uv sync --frozen
 
-black: ## Runs black on the codebase
-	@docker compose exec web black --extend-exclude migrations --line-length 120 .
+ruff-format: ## Runs ruff formatter on the codebase
+	@uv run ruff format .
 
-isort: ## Runs isort on the codebase
-	@docker compose exec web isort -l 120 --profile black .
+ruff-lint:  ## Runs ruff linter on the codebase
+	@uv run ruff check --fix .
 
-format: black isort ## Runs formatting (black and isort) on the codebase
+ruff: ruff-format ruff-lint ## Formatting and linting using Ruff
 
-npm-install: ## Runs npm install in the container
-	@docker compose exec web npm install $(filter-out $@,$(MAKECMDGOALS))
+npm-install-all: ## Runs npm install
+	@npm install
 
-npm-uninstall: ## Runs npm uninstall in the container
-	@docker compose exec web npm uninstall $(filter-out $@,$(MAKECMDGOALS))
+npm-install: ## Runs npm install (optionally accepting package names)
+	@npm install $(filter-out $@,$(MAKECMDGOALS))
 
-npm-build: ## Runs npm build in the container (for production assets)
-	@docker compose exec web npm run build
+npm-uninstall: ## Runs npm uninstall (takes package name(s))
+	@npm uninstall $(filter-out $@,$(MAKECMDGOALS))
 
-npm-dev: ## Runs npm dev in the container
-	@docker compose exec web npm run dev
+npm-build: ## Runs npm build (for production assets)
+	@npm run build
 
-npm-watch: ## Runs npm watch in the container (recommended for dev)
-	@docker compose exec web npm run dev-watch
+npm-dev: ## Runs npm dev
+	@npm run dev
 
 npm-type-check: ## Runs the type checker on the front end TypeScript code
-	@docker compose exec web npm run type-check
+	@npm run type-check
 
-api-client:  ## Update the API client. See these notes for pointers: https://docs.saaspegasus.com/apis.html#generating-the-api-client
-	@docker run --rm -v ${PWD}/assets/javascript/api-client:/local openapitools/openapi-generator-cli generate \
-	-i http://${HOST_IP}:8000/api/schema/ \
-	-g typescript-fetch \
-	-o /local/
+upgrade: migrations migrate npm-install npm-dev  ## Run after a Pegasus upgrade to update requirements, migrate the database, and rebuild the front end
 
-bootstrap_content:  ## Initializes your Wagtail content with some example pages and blog posts
-	@docker compose exec web python manage.py bootstrap_content
-
-upgrade: pip-compile build start-bg migrations migrate npm-install npm-dev
+build-api-client:  ## Update the JavaScript API client code.
+	@cp ./api-client/package.json ./package.json.api-client
+	@rm -rf ./api-client
+	@mkdir -p ./api-client
+	@mv ./package.json.api-client ./api-client/package.json
+	@docker run --rm --network host \
+		-v ./api-client:/local \
+		--user $(MY_UID):$(MY_GID) \
+		openapitools/openapi-generator-cli:v7.9.0 generate \
+		-i http://localhost:8000/api/schema/ \
+		-g typescript-fetch \
+		-o /local/
 
 .PHONY: help
 .DEFAULT_GOAL := help
 
 help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -hE '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+# catch-all for any undefined targets - this prevents error messages
+# when running things like make npm-install <package>
+%:
+	@:

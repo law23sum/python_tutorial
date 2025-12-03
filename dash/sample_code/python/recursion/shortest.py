@@ -1,5 +1,0 @@
-def shortest():
-    shortest()
-
-
-shortest()

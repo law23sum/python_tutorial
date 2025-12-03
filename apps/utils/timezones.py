@@ -39,4 +39,4 @@ def get_common_timezones():
 
 def get_timezones_display():
     all_tzs = get_common_timezones()
-    return zip([""] + all_tzs, [gettext("Not Set")] + all_tzs)
+    return zip([""] + all_tzs, [gettext("Not Set")] + all_tzs, strict=False)

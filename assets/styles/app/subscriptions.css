@@ -1,0 +1,57 @@
+/* this makes the list items look nice on mobile */
+.upgrade-features li {
+  display: flex;
+}
+
+.upgrade-features li .pg-icon {
+  margin-right: 0.5rem;
+}
+
+.upgrade-features li .upgrade-feature {
+  width: 100%;
+}
+
+#subscription-details-table .subscription-detail {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin: 0.5rem;
+}
+
+#subscription-details-table .subscription-detail .subscription-detail-label {
+  width: 16rem;
+  text-align: right;
+  margin-right: 1rem;
+}
+
+#subscription-details-table .subscription-detail .subscription-detail-value {
+  width: 100%;
+}
+
+#subscription-details-table .subscription-detail .subdetail {
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+#plan-selector .plan {
+  height: 100%; /* fill the whole column */
+  /* prevent shifting when border is added */
+  border: 3px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+#plan-selector .plan.is-selected {
+  border: 3px solid var(--primary);
+}
+
+#plan-selector .plan .plan-summary {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#plan-selector .plan .price {
+  font-size: 1.5rem;
+}

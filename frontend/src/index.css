@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+@plugin "daisyui";
+
+/* optionally include other styles from base.css or site-tailwind.css here
+   currently only the ones that are needed for the existing pages are included.
+   e.g.:
+@import 'assets/styles/app/subscriptions.css';
+@import 'assets/styles/app/tailwind/subscription-components.css';
+*/
+@import 'assets/styles/app/utilities.css';
+@import 'assets/styles/app/tailwind/app-components.css';
+@import 'assets/styles/pegasus/tailwind.css';
+
+
+:root {
+  /* some vite font defaults */
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -32,7 +32,7 @@ def update_user_email(sender, request, email_address, **kwargs):
 def _notify_admins_of_signup(user):
     mail_admins(
         f"Yowsers, someone signed up for {settings.PROJECT_METADATA['NAME']}!",
-        "Email: {}".format(user.email),
+        f"Email: {user.email}",
         fail_silently=True,
     )
 
@@ -47,13 +47,11 @@ def remove_old_profile_picture_on_change(sender, instance, **kwargs):
     except sender.DoesNotExist:
         return False
 
-    if old_file and old_file.name != instance.avatar.name:
-        if default_storage.exists(old_file.name):
-            default_storage.delete(old_file.name)
+    if old_file and old_file.name != instance.avatar.name and default_storage.exists(old_file.name):
+        default_storage.delete(old_file.name)
 
 
 @receiver(post_delete, sender=CustomUser)
 def remove_profile_picture_on_delete(sender, instance, **kwargs):
-    if instance.avatar:
-        if default_storage.exists(instance.avatar.name):
-            default_storage.delete(instance.avatar.name)
+    if instance.avatar and default_storage.exists(instance.avatar.name):
+        default_storage.delete(instance.avatar.name)

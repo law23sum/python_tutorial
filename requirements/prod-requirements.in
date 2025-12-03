@@ -1,4 +1,0 @@
--c requirements.txt
-gevent
-gunicorn
-uvicorn[standard]

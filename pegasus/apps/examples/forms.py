@@ -12,13 +12,19 @@ class ExampleForm(forms.Form):
     )
     name = forms.CharField(help_text="This is a character field. It is required.")
     email = forms.EmailField(help_text="This is an email field. It is required.")
+    placeholder = forms.CharField(
+        help_text="This is a character field with some placeholder text.",
+        widget=forms.TextInput(attrs={"placeholder": "This is the placeholder text."}),
+    )
     date = forms.DateField(help_text="This is a date field. It is required.", widget=DateInput(attrs={"type": "date"}))
-
+    file = forms.FileField(required=False, help_text="This is a file field. It is not required.")
     invisible = forms.CharField(
         help_text="This is an Invisible field.", widget=forms.HiddenInput(), initial="something"
     )
-    website = forms.URLField(help_text="This is a URL field. It is required.")
-    checkbox = forms.BooleanField(help_text="This is a checkbox / boolean field", required=False)
+    website = forms.URLField(help_text="This is a URL field. It is required.", assume_scheme="https")
+    checkbox = forms.BooleanField(
+        label="Checkbox / boolean field", help_text="This is some help text for our checkbox", required=False
+    )
     favorite_color = forms.ChoiceField(help_text="This is a choice field", choices=COLORS)
     comments = forms.CharField(
         help_text="This is a longer character field. It is optional", required=False, widget=forms.Textarea()

@@ -1,9 +1,9 @@
 media
-static/css
-static/js
 static_root
 node_modules
 npm-debug.log
-.env
+**/.env
+venv
+.venv
 .direnv
 .pytest_cache

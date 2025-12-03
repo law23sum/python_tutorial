@@ -1,19 +1,21 @@
 import hashlib
 import uuid
+from functools import cached_property
 
+from allauth.account.models import EmailAddress
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from djstripe.models import Customer
 
+from apps.subscriptions.models import SubscriptionModelBase
 from apps.users.helpers import validate_profile_picture
 
 
 def _get_avatar_filename(instance, filename):
     """Use random filename prevent overwriting existing files & to fix caching issues."""
-    return f'profile-pictures/{uuid.uuid4()}.{filename.split(".")[-1]}'
+    return f"profile-pictures/{uuid.uuid4()}.{filename.split('.')[-1]}"
 
 
-class CustomUser(AbstractUser):
+class CustomUser(SubscriptionModelBase, AbstractUser):
     """
     Add additional fields to the user model here.
     """
@@ -21,7 +23,6 @@ class CustomUser(AbstractUser):
     avatar = models.FileField(upload_to=_get_avatar_filename, blank=True, validators=[validate_profile_picture])
     language = models.CharField(max_length=10, blank=True, null=True)
     timezone = models.CharField(max_length=100, blank=True, default="")
-    customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f"{self.get_full_name()} <{self.email or self.username}>"
@@ -36,9 +37,13 @@ class CustomUser(AbstractUser):
         if self.avatar:
             return self.avatar.url
         else:
-            return "https://www.gravatar.com/avatar/{}?s=128&d=identicon".format(self.gravatar_id)
+            return f"https://www.gravatar.com/avatar/{self.gravatar_id}?s=128&d=identicon"
 
     @property
     def gravatar_id(self) -> str:
         # https://en.gravatar.com/site/implement/hash/
         return hashlib.md5(self.email.lower().strip().encode("utf-8")).hexdigest()
+
+    @cached_property
+    def has_verified_email(self):
+        return EmailAddress.objects.filter(user=self, verified=True).exists()

@@ -27,7 +27,6 @@ def validate_profile_picture(value):
         ".tif",
         ".tiff",
         ".webp",
-        ".svg",
         ".bmp",
     }
     file_extension = os.path.splitext(value.name)[1].lower()

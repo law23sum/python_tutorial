@@ -1,0 +1,10 @@
+{% extends "web/app/app_base.html" %}
+{% load static %}
+{% load django_vite %}
+{% block app %}
+<div id="shadcn-demo"></div>
+{% endblock %}
+{% block page_js %}
+{% vite_react_refresh %}
+{% vite_asset 'assets/javascript/shadcn-dashboard/index.jsx' %}
+{% endblock %}

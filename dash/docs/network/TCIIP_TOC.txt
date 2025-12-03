@@ -1,51 +1,0 @@
-Author Bio 
-Charles M. Kozierok is the author and publisher of The PC Guide, an extensive online reference work on personal computers, as well as several other educational websites, including The TCP/IP Guide. He holds master’s degrees from MIT in management and in electrical engineering and computer science (EECS), and worked in various technical and managerial roles before dedicating himself full-time to writing and educational pursuits. He lives in rural Vermont with his wife and three sons.
-Table of contents 
-A more detailed table of contents is available here.
-INTRODUCTION
-SECTION I: TCP/IP OVERVIEW AND BACKGROUND INFORMATION
-PART I-1: NETWORKING FUNDAMENTALS
-Chapter 1: Networking Introduction, Characteristics and Types Chapter 2: Network Performance Issues and Concepts Chapter 3: Network Standards and Standards Organizations Chapter 4: A Review of Data Representation and the Mathematics of Computing
-PART I-2: THE OPEN SYSTEM INTERCONNECTION (OSI) REFERENCE MODEL
-Chapter 5: General OSI Reference Model Issues and Concepts Chapter 6: OSI Reference Model Layers Chapter 7: OSI Reference Model Summary
-PART I-3: TCP/IP PROTOCOL SUITE AND ARCHITECTURE
-Chapter 8: TCP/IP Protocol Suite and Architecture
-SECTION II: TCP/IP LOWER-LAYER CORE PROTOCOLS
-PART II-1: TCP/IP NETWORK INTERFACE LAYER PROTOCOLS
-Chapter 9: TCP/IP Serial Line Internet Protocol (SLIP) and Point-to-Point Protocol (PPP) Overview and Fundamentals Chapter 10: PPP Core Protocols: Link Control, Network Control, and Authentication Chapter 11: PPP Feature Protocols Chapter 12: PPP Protocol Frame Formats
-PART II-2: TCP/IP NETWORK INTERFACE/INTERNET LAYER CONNECTION PROTOCOLS
-Chapter 13: Address Resolution and the TCP/IP Address Resolution Protocol (ARP) Chapter 14: Reverse Address Resolution and the TCP/IP Reverse Address Resolution Protocol (RARP)
-PART II-3: INTERNET PROTOCOL VERSION 4 (IP/IPV4)
-Chapter 15: Internet Protocol Versions, Concepts and Overview Chapter 16: IPv4 Addressing Concepts and Issues Chapter 17: IP "Classful" (Conventional) Addressing Chapter 18: IP Subnet Addressing (Subnetting) Concepts Chapter 19: IP Subnetting Practical Subnet Design and Address Determination Example Chapter 20: IP Classless Addressing: Classless Inter-Domain Routing (CIDR)/Supernetting Chapter 21: Internet Protocol Datagram Encapsulation and Formatting Chapter 22: IP Datagram Size, Fragmentation, and Reassembly Chapter 23: IP Routing and Multicasting
-PART II-4: INTERNET PROTOCOL VERSION 6 (IPV6)
-Chapter 24: IPv6 Overview, Changes, and Transition Chapter 25: IPv6 Addressing Chapter 26: IPv6 Datagram Encapsulation and Formatting Chapter 27: IPv6 Datagram Size, Fragmentation, Reassembly, and Routing
-PART II-5: IP-RELATED FEATURE PROTOCOLS
-Chapter 28: IP Network Address Translation (NAT) Protocol Chapter 29: IP Security (IPSec) Protocols Chapter 30: Internet Protocol Mobility Support (Mobile IP)
-PART II-6: IP SUPPORT PROTOCOLS (ICMP AND ND)
-Chapter 31: ICMP Concepts and General Operation Chapter 32: ICMPv4 Error Message Types and Formats Chapter 33: ICMPv4 Informational Message Types and Formats Chapter 34: ICMPv4 Error Message Types and Formats Chapter 35: ICMPv4 Iformational Message Types and Formats Chapter 36: IPv6 Neighbor Discovery (ND) Protocol
-PART II-7: TCP/IP ROUTING PROTOCOLS (GATEWAY PROTOCOLS)
-Chapter 37: Overview Of Key Routing Protocol Concepts Chatper 38: Routing Information Protocol (RIP, RIP-2, and RIPLNG) Chapter 39: Open Shortest Path First (OSPF) Chapter 40: Border Gateway Protocol (BGP/BGP-4) Chapter 41: Other Interior Routing Protocols
-PART II-8: TCP/IP TRANSPORT LAYER PROTOCOLS
-Chapter 42: Overview and Comparison of TCP and UDP Chapter 43: TCP and UDP Addressing: Ports and Sockets Chapter 44: TCP/IP User Datagram Protocol (UDP) Chapter 45: TCP Overview, Functions, and Characteristics Chapter 46: Transmission Control Protocol (TCP) Fundamentals and General Operation Chapter 47: TCP Basic Operation: Connection Establishment, Management, and Termination Chapter 48: TCP Message Formatting and Data Transfer Chapter 49: TCP Reliability and Flow Control Features
-SECTION III: TCP/IP APPLICATION LAYER PROTOCOLS
-PART III-1: NAME SYSTEMS AND TCP/IP NAME REGISTRATION AND NAME RESOLUTION
-Chapter 50: Name System Issues, Concepts, and Techniques Chapter 51: TCP/IP Name Systems Overview and the Host Tables Name System Chapter 52: Domain Name System (DNS) Overview, Functions, and Characteristics Chapter 53: DNS Name Space, Architecture, and Terminology Chapter 54: DNS Name Registration, Public Administration, Zones, and Authorities Chapter 55: DNS Name Server Concepts and Operation Chapter 56: DNS Resolution Concepts and Resolver Operations Chapter 57: DNS Messaging and Message, Resource Record, and Master File Formats
-PART III-2: NETWORK FILE AND RESOURCE SHARING PROTOCOLS AND THE TCP/IP NETWORK FILE SYSTEM (NFS)
-Chapter 58: Network File and Resource Sharing and the TCP/IP Network File System (NFS)
-PART III-3: HOST CONFIGURATION AND TCP/IP HOST CONFIGURATION PROTOCOLS (BOOTP AND DHCP)
-Chapter 59: Host Configuration Concepts, Issues, and Motivation Chapter 60: TCP/IP Bootstrap Protocol (BOOTP) Chapter 61: DHCP Address Allocation Concepts Chapter 62: DHCP Configuration and Operation Chapter 63: DHCP Messaging, Message Types, and Formats Chapter 64: DHCP Client/Server Implementation, Features, and IPV6 Support
-PART III-4: TCP/IP NETWORK MANAGEMENT FRAMEWORK AND PROTOCOLS (SNMP AND RMON)
-Chapter 65: TCP/IP Internet Standard Management Framework Overview Chapter 66: TCP/IP Structure of Management Information (SMI) and Management Information Bases (MIBs) Chapter 67: TCP/IP Simple Network Management Protocol (SNMP) Concepts and Operation Chapter 68: SNMP Protocol Messaging and Message Formats Chapter 69: TCP/IP Remote Network Monitoring (RMON)
-PART III-5: TCP/IP APPLICATION LAYER ADDRESSING AND APPLICATION CATEGORIES
-Chapter 70: TCP/IP Application Layer Addressing: Uniform Resource Identifiers, Locators, and Names (URIs, URLs and URNs) Chapter 71: File and Message Transfer Overview and Application Categories
-PART III-6: TCP/IP GENERAL FILE TRANSFER PROTOCOLS (FTP AND TFTP)
-Chapter 72: File Transfer Protocol (FTP) Chapter 73: Trivial File Transfer Protocol (TFTP)
-PART III-7: TCP/IP ELECTRONIC MAIL SYSTEM: CONCEPTS AND PROTOCOLS
-Chapter 74: TCP/IP Electronic Mail System Overview and Concepts Chapter 75: TCP/IP Electronic Mail Addresses and Addressing Chapter 76: TCP/IP Electronic Mail Message Formats and Message Processing: RFC 822 and MIME 1245 Chapter 77: TCP/IP Electronic Mail Delivery Protocol: The Simple Mail Transfer Protocol (SMTP) Chapter 78: TCP/IP Electronic Mail Access and Retrieval Protocols and Methods
-PART III-8: TCP/IP WORLD WIDE WEB AND THE HYPERTEXT TRANSFER PROTOCOL (HTTP)
-Chapter 79: World Wide Web and Hypertext Overview and Concepts Chapter 80: HTTP General Operation and Connections Chapter 81: HTTP Messages, Methods, and Status Codes Chapter 82: HTTP Message Headers Chapter 83: HTTP Entities, Transfers, Coding Methods, and Content Management Chapter 84: HTTP Features, Capabilities, and Issues
-PART III-9: OTHER FILE AND MESSAGE TRANSFER APPLICATIONS
-Chapter 85: Usenet (Network News) and the TCP/IP Network News Transfer Protocol (NNTP) Chapter 86: Gopher Protocol (Gopher)
-PART III-10: INTERACTIVE AND ADMINISTRATIVE UTILITIES AND PROTOCOLS
-Chapter 87: TCP/IP Interactive and Remote Application Protocols Chapter 88: TCP/IP Administration and Troubleshooting Utilities and Protocols
-INDEX

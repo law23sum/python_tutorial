@@ -1,13 +1,22 @@
+from typing import Any
+
 from allauth.account import app_settings
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.utils import user_email, user_field
-from allauth_2fa.adapter import OTPAdapter as AllAuthOtpAdapter
+from allauth.headless.adapter import DefaultHeadlessAdapter
+from allauth.mfa.models import Authenticator
+from django.utils.translation import gettext_lazy as _
 
 
 class EmailAsUsernameAdapter(DefaultAccountAdapter):
     """
     Adapter that always sets the username equal to the user's email address.
     """
+
+    def __init__(self, request=None):
+        super().__init__(request)
+        # Prevent leaking whether someone is already signed up.
+        self.error_messages["email_taken"] = _("There was an issue creating the account. Please contact support.")
 
     def populate_username(self, request, user):
         # override the username population to always use the email
@@ -24,5 +33,14 @@ class NoNewUsersAccountAdapter(DefaultAccountAdapter):
         return False
 
 
-class AccountAdapter(EmailAsUsernameAdapter, AllAuthOtpAdapter):
-    pass
+class CustomHeadlessAdapter(DefaultHeadlessAdapter):
+    def serialize_user(self, user) -> dict[str, Any]:
+        data = super().serialize_user(user)
+        data["avatar_url"] = user.avatar_url
+        return data
+
+
+def user_has_valid_totp_device(user) -> bool:
+    if not user.is_authenticated:
+        return False
+    return user.authenticator_set.filter(type=Authenticator.Type.TOTP).exists()

@@ -1,5 +1,8 @@
+from django.conf import settings
+from django.http import Http404
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
+from health_check.views import MainView
 
 
 def home(request):
@@ -8,8 +11,8 @@ def home(request):
             request,
             "web/app_home.html",
             context={
-                "active_tab": "python_tutorial",
-                "page_title": _("python_tutorial"),
+                "active_tab": "dashboard",
+                "page_title": _("Dashboard"),
             },
         )
     else:
@@ -18,3 +21,11 @@ def home(request):
 
 def simulate_error(request):
     raise Exception("This is a simulated error.")
+
+
+class HealthCheck(MainView):
+    def get(self, request, *args, **kwargs):
+        tokens = settings.HEALTH_CHECK_TOKENS
+        if tokens and request.GET.get("token") not in tokens:
+            raise Http404
+        return super().get(request, *args, **kwargs)

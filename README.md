@@ -1,48 +1,62 @@
-# PythonTutorial
+# Python Tutorial
 
-python tutorial
+The less boilerplate the better.
 
-## Installation - Docker
+## Quickstart
 
-The easiest way to get up and running is with [Docker](https://www.docker.com/).
+### Prerequisites
 
-Just [install Docker](https://www.docker.com/get-started) and
-[Docker Compose](https://docs.docker.com/compose/install/)
-and then run:
+To run the app in the recommended configuration, you will need the following installed:
+- [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) (for Python)
+- [node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) (for JavaScript)
 
-```
+On Windows, you will also need to install `make`, which you can do by
+[following these instructions](https://stackoverflow.com/a/57042516/8207).
+
+### Initial setup
+
+Run the following command to initialize your application:
+
+```bash
 make init
 ```
 
-This will spin up a database, web worker, celery worker, and Redis broker and run your migrations.
+This will:
 
-You can then go to [localhost:8000](http://localhost:8000/) to view the app.
+- Build and run your Postgres database
+- Build and run your Redis database
+- Run your database migrations
+- Install front end dependencies
 
-*Note: if you get an error, make sure you have a `.env.docker` file, or create one based on `.env.example`.*
+Then you can start the app:
 
-### Using the Makefile
+```bash
+make dev
+```
+
+This will run your Django server and build and run your front end (JavaScript and CSS) pipeline.
+
+Your app should now be running! You can open it at [localhost:8000](http://localhost:8000/).
+
+If you're just getting started, [try these steps next](https://docs.saaspegasus.com/getting-started/#post-installation-steps).
+
+## Using the Makefile
 
 You can run `make` to see other helper functions, and you can view the source
 of the file in case you need to run any specific commands.
-
-For example, you can run management commands in containers using the same method 
-used in the `Makefile`. E.g.
-
-```
-docker compose exec web python manage.py createsuperuser
-```
 
 ## Installation - Native
 
 You can also install/run the app directly on your OS using the instructions below.
 
-Setup a virtualenv and install requirements
-(this example uses [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/)):
+You can setup a virtual environment and install dependencies in a single command with:
 
 ```bash
-mkvirtualenv python_tutorial -p python3.11
-pip install -r dev-requirements.txt
+uv sync
 ```
+
+This will create your virtual environment in the `.venv` directory of your project root.
 
 ## Set up database
 
@@ -57,40 +71,24 @@ createdb python_tutorial
 Create database migrations:
 
 ```
-./manage.py makemigrations
+uv run manage.py makemigrations
 ```
 
 Create database tables:
 
 ```
-./manage.py migrate
+uv run manage.py migrate
 ```
 
 ## Running server
 
-**Docker:**
-
 ```bash
-make start
-```
-
-**Native:**
-
-```bash
-./manage.py runserver
+uv run manage.py runserver
 ```
 
 ## Building front-end
 
 To build JavaScript and CSS files, first install npm packages:
-
-**Docker:**
-
-```bash
-make npm-install
-```
-
-**Native:**
 
 ```bash
 npm install
@@ -98,38 +96,34 @@ npm install
 
 Then build (and watch for changes locally):
 
-**Docker:**
-
 ```bash
-make npm-watch
-```
-
-**Native:**
-
-```bash
-npm run dev-watch
+npm run dev
 ```
 
 ## Running Celery
 
 Celery can be used to run background tasks.
-If you use Docker it will start automatically.
+
+Celery requires [Redis](https://redis.io/) as a message broker, so make sure
+it is installed and running.
 
 You can run it using:
 
 ```bash
-celery -A python_tutorial worker -l INFO
+celery -A python_tutorial worker -l INFO --pool=solo
 ```
 
 Or with celery beat (for scheduled tasks):
 
 ```bash
-celery -A python_tutorial worker -l INFO -B
+celery -A python_tutorial worker -l INFO -B --pool=solo
 ```
+
+Note: Using the `solo` pool is recommended for development but not for production.
 
 ## Updating translations
 
-**Docker:**
+**Using make:**
 
 ```bash
 make translations
@@ -138,28 +132,36 @@ make translations
 **Native:**
 
 ```bash
-./manage.py makemessages --all --ignore node_modules --ignore venv
-./manage.py makemessages -d djangojs --all --ignore node_modules --ignore venv
-./manage.py compilemessages
+uv run manage.py makemessages --all --ignore node_modules --ignore .venv
+uv run manage.py makemessages -d djangojs --all --ignore node_modules --ignore .venv
+uv run manage.py compilemessages --ignore .venv
 ```
+
+## Google Authentication Setup
+
+To setup Google Authentication, follow the [instructions here](https://docs.allauth.org/en/latest/socialaccount/providers/google.html).
+
+## Github Authentication Setup
+
+To setup Github Authentication, follow the [instructions here](https://docs.allauth.org/en/latest/socialaccount/providers/github.html).
 
 ## Installing Git commit hooks
 
 To install the Git commit hooks run the following:
 
 ```shell
-$ pre-commit install --install-hooks
+uv run pre-commit install --install-hooks
 ```
 
 Once these are installed they will be run on every commit.
 
-For more information see the [docs](https://docs.saaspegasus.com/code-structure.html#code-formatting).
+For more information see the [docs](https://docs.saaspegasus.com/code-structure#code-formatting).
 
 ## Running Tests
 
 To run tests:
 
-**Docker:**
+**Using make:**
 
 ```bash
 make test
@@ -168,34 +170,25 @@ make test
 **Native:**
 
 ```bash
-./manage.py test
+uv run manage.py test
 ```
 
 Or to test a specific app/module:
 
-**Docker:**
+**Using make:**
 
 ```bash
-docker compose exec web python manage.py test apps.utils.tests.test_slugs
+make test ARGS='apps.web.tests.test_basic_views --keepdb'
 ```
 
 **Native:**
 
 ```bash
-./manage.py test apps.utils.tests.test_slugs
+uv run manage.py test apps.web.tests.test_basic_views --keepdb
 ```
 
 On Linux-based systems you can watch for changes using the following:
 
-**Docker:**
-
 ```bash
-find . -name '*.py' | entr docker compose exec web python manage.py test apps.utils.tests.test_slugs
+find . -name '*.py' | entr uv run manage.py test apps.web.tests.test_basic_views
 ```
-
-**Native:**
-
-```bash
-find . -name '*.py' | entr python ./manage.py test apps.utils.tests.test_slugs
-```
-# python_tutorial

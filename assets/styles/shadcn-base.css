@@ -1,0 +1,24 @@
+/* plug in daisyui variables for the shadcn theme */
+@theme inline {
+  --color-background: var(--color-base-100);
+  --color-foreground: var(--color-base-content);
+  --color-card: var(--color-base-100);
+  --color-card-foreground: var(--color-base-content);
+  --color-popover: var(--color-base-100);
+  --color-popover-foreground: var(--color-base-content);
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-content);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-foreground: var(--color-secondary-content);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  /* doesn't use daisyui accent color because shadcn expects something more subtle */
+  --color-accent: var(--color-base-200);
+  --color-accent-foreground: var(--color-base-content);
+  --color-destructive: var(--color-error);
+  --color-destructive-foreground: var(--color-error-content);
+  --color-border: var(--color-gray-200);
+  --color-input: var(--color-gray-200);
+  --color-ring: var(--color-primary);
+  --color-radius: var(--radius);
+}
