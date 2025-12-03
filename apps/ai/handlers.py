@@ -7,7 +7,7 @@ from pydantic_ai.messages import (
     FunctionToolResultEvent,
 )
 
-logger = logging.getLogger("pegasus.ai")
+logger = logging.getLogger("tutorial.ai")
 
 
 async def agent_event_stream_handler(ctx, event_stream: AsyncIterable[AgentStreamEvent]):

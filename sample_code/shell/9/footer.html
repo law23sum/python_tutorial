@@ -1,0 +1,77 @@
+<!-- footer information for APM system. -->
+
+<div style='margin-top: 10px;'>
+    <table border='1' cellpadding='2' cellspacing='0' style="border:2px solid #666;border-radius:5px;"
+           width="80%">
+        <tr>
+            <th bgcolor='#cccccc' colspan='4'>Password Manager Actions</th>
+        </tr>
+        <tr>
+            <td>
+                <form action="--myname--" method="get">
+                    <table border='0'>
+                        <tr>
+                            <td><input name="a" type='hidden' value="A">
+                                add user:
+                            </td>
+                            <td><input name='u' size='15' type='text'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                password:
+                            </td>
+                            <td><input name='p' size='15' type='text'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="2">
+                                <input style="background-color:#ccf;" type='submit' value='add'>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+            <td>
+                <form action="--myname--" method="get">
+                    <table border='0'>
+                        <tr>
+                            <td><input name="a" type='hidden' value="U">
+                                update
+                            </td>
+                            <td><select name='u'>--options--</select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                password:
+                            </td>
+                            <td><input name='p' size='10' type='text'>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="2">
+                                <input style="background-color:#ccf;" type='submit' value='update'>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+            <td>
+                <form action="--myname--" method="get"><input name="a"
+                                                              type='hidden' value="D">delete <select name='u'>
+                    --options-- </select>
+                    <br/><br/>
+                    <center>
+                        <input style="background-color:#ccf;" type='submit' value='delete'></center>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<h5 style='background:#ccf;border-radius:3px;border:1px solid #99c;padding:3px;'>
+    From the book <a href="http://www.intuitive.com/wicked/">Wicked Cool Shell Scripts</a>
+</h5>
+
+</body></html>

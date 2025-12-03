@@ -1,0 +1,5 @@
+def shortest():
+    shortest()
+
+
+shortest()

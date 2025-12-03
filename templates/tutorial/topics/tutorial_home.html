@@ -1,0 +1,39 @@
+{% extends "web/app/app_base.html" %}
+{% load i18n %}
+{% block app %}
+<section class="space-y-8">
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body space-y-4">
+      <p class="font-mono text-xs uppercase tracking-widest text-primary">{% translate "Curriculum" %}</p>
+      <h1 class="card-title text-4xl">{% translate "Python tutorial" %}</h1>
+      <p class="max-w-3xl text-lg opacity-80">
+        {% blocktranslate trimmed %}
+        Explore every part of the program from fundamentals to leadership. Each module below links to an in-depth topic
+        page so you can review goals, gather resources, and keep your study plan organized in one place.
+        {% endblocktranslate %}
+      </p>
+    </div>
+  </div>
+  <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    {% for topic in topics %}
+    <article class="card bg-base-100 border border-base-200 shadow-sm h-full">
+      <div class="card-body space-y-4">
+        <div class="flex items-center justify-between text-sm uppercase tracking-wide">
+          <span class="badge badge-outline">{% blocktranslate trimmed %}Module {{ number }}{% endblocktranslate with number=forloop.counter %}</span>
+          <span class="text-xs font-semibold opacity-70">{{ topic.tagline }}</span>
+        </div>
+        <div class="space-y-2">
+          <h2 class="card-title text-2xl">{{ topic.title }}</h2>
+          <p class="opacity-80">{{ topic.summary }}</p>
+        </div>
+        <div class="card-actions justify-start">
+          <a class="btn btn-primary" href="{% url topic.url_name %}">
+            {% blocktranslate trimmed with title=topic.title %}Open {{ title }}{% endblocktranslate %}
+          </a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

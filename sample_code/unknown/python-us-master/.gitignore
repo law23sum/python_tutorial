@@ -1,0 +1,16 @@
+.env
+
+# Compilation and caching
+.cache/
+.mypy_cache/
+.pytest_cache/
+.tox/
+__pycache__/
+*.pyc
+
+# Distribution files
+dist/
+us.egg-info/
+
+# System files
+.DS_Store

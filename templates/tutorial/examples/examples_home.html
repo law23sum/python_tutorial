@@ -1,0 +1,46 @@
+{% extends "web/app/app_base.html" %}
+{% load i18n %}
+{% block app %}
+<section class="space-y-8">
+  <div class="card bg-base-100 shadow-xl">
+    <div class="card-body">
+      <p class="font-mono text-xs uppercase tracking-widest text-primary">{% translate "Curriculum" %}</p>
+      <h1 class="card-title text-4xl">{% translate "Examples library" %}</h1>
+      <p class="max-w-3xl text-lg opacity-80">
+        {% blocktranslate trimmed %}
+        Jump into focused, end-to-end walkthroughs for the parts of the tutorial that require architectural tradeoffs and
+        deeper planning. Each example links directly to the corresponding topic so you can keep exploring once you've
+        finished the guided scenario.
+        {% endblocktranslate %}
+      </p>
+    </div>
+  </div>
+  <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    {% for example in examples %}
+    <article class="card bg-base-100 border border-base-200 shadow-sm h-full">
+      <div class="card-body space-y-4">
+        <div class="flex items-center justify-between text-sm uppercase tracking-wide">
+          <span class="badge badge-outline">{{ example.level }}</span>
+          <i class="{{ example.icon }} text-xl"></i>
+        </div>
+        <div class="space-y-2">
+          <p class="font-mono text-xs opacity-70">{{ example.slug|title }}</p>
+          <h2 class="card-title text-2xl">{{ example.title }}</h2>
+          <p class="opacity-80">{{ example.summary }}</p>
+        </div>
+        {% if example.focus %}
+        <p class="text-sm opacity-70">
+          {{ example.focus }}
+        </p>
+        {% endif %}
+        <div class="card-actions justify-start">
+          <a class="btn btn-primary" href="{% url example.url_name %}">
+            {% blocktranslate trimmed with title=example.title %}Explore {{ title }}{% endblocktranslate %}
+          </a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

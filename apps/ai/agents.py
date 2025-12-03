@@ -15,7 +15,7 @@ from pydantic_ai.messages import (
 )
 from pydantic_ai.toolsets import AbstractToolset
 
-from apps.ai.tools import admin_db, email_toolset, employee_toolset, weather_toolset
+from apps.ai.tools import admin_db, email_toolset, topics_toolset, weather_toolset
 from apps.ai.types import UserDependencies
 from apps.chat.prompts import get_default_system_prompt
 from apps.users.models import CustomUser
@@ -62,7 +62,7 @@ def get_admin_agent():
 
 
 def get_employees_agent():
-    return _get_agent([employee_toolset])
+    return _get_agent([topics_toolset])
 
 
 def _get_agent(toolsets: list[AbstractToolset]):

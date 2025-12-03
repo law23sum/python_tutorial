@@ -28,13 +28,13 @@
   <div id="crud-home"></div>
 {% endblock %}
 {% block page_js %}
-  {% vite_asset 'assets/javascript/pegasus/pegasus.js' %}
+  {% vite_asset 'assets/javascript/tutorial/tutorial.js' %}
   <script>
     document.addEventListener('DOMContentLoaded', () => {
 
       const objectUrl = '{% url "pegasus_employees:react_object_lifecycle" %}';
-      const Charts = SiteJS.pegasus.Charts;
-      const client = SiteJS.pegasus.getPegasusApiClient("{{ server_url }}");
+      const Charts = SiteJS.tutorial.Charts;
+      const client = SiteJS.tutorial.getTutorialApiClient("{{ server_url }}");
 
       client.employeesAggregateData().then(function (result) {
         if (result.headcounts.length === 0) {

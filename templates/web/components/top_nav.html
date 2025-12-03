@@ -25,18 +25,12 @@
       </a>
     </div>
   </div>
-  <div class="navbar-end">
-    {% if user.is_authenticated %}
-      <div role="tablist" class="tabs p-0">
-        <a class="tab {% if '/pegasus' in request.path %}tab-active{% endif %}" href="{% url 'pegasus_examples:examples_home' %}">
-          {% translate "Examples Gallery" %}
-        </a>
-      </div>
-    {% else %}
+  <div class="navbar-end items-center space-x-2">
+    {% if user.is_anonymous %}
     <a href="{% url 'account_signup' %}" class="btn btn-primary">
       {% translate "Sign Up" %}
     </a>
-    <a href="{% url 'account_login' %}" class="btn btn-outline ml-2">
+    <a href="{% url 'account_login' %}" class="btn btn-outline">
       {% translate "Sign In" %}
     </a>
     {% endif %}

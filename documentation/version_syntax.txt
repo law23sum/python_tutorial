@@ -1,0 +1,29 @@
+PEP 440 defines the following regular expression format for version numbering:
+
+     Legend
+
+             +      include
+             []     optional
+             |      or
+              N      version number
+             .N     dot number
+             [+N]   minor numbber
+              a     alpha
+              b     beta
+              c     release
+              rc    latest release
+
+    Syntax Structure
+
+             N[.N]+[{a|b|c|rc}N][.postN][.devN]
+
+    Version Post Release    N[.N].postN === 1.4.post2 ===  address minor errors in the publication process
+    Version Final Release   N[.N]+      === 1.2       ===  1.2.0
+    Version Final Release   N[.N][.N]+  === 1.3.4     ===  1.3.4.0
+    Version Latest Bug Fix  N[.N]+      === 1.3.4.1   ===  increment the minor version number
+    Version Latest Release  N[.N]+rcN   === 0.4rc1    ===  latest release candidate
+    Version Release         N[.N]+cN    === 0.4c1     ===  release candidate
+    Version Beta Release    N[.N]+bN    === 2.3.1b2   ===  feature complete but buggy
+    Version Alpha Release   N[.N]+aN    === 1.2a1     ===  unstable and missing features
+    Version Dev Release     N[.N]+devN  === 1.2dev1   ===  developmental release
+    Version Dev Release     N[.N]+devN  === 1.2dev2   ===  indicates the 2nd dev version

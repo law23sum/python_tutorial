@@ -58,6 +58,7 @@ uv sync
 
 This will create your virtual environment in the `.venv` directory of your project root.
 
+
 ## Set up database
 
 *If you are using Docker you can skip these steps.*

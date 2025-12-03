@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/stable/ref/settings/
 import os
 import sys
 from pathlib import Path
+from urllib.parse import quote, urlparse, urlunparse
 
 import environ
 from corsheaders.defaults import default_headers
@@ -21,6 +22,42 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env"))
+
+RUNNING_IN_DOCKER = Path("/.dockerenv").exists()
+DOCKER_DB_HOSTNAMES = {"db"}
+DOCKER_REDIS_HOSTNAMES = {"redis"}
+
+
+def _normalize_container_hostname(hostname, container_names):
+    """Translate Docker-only hostnames to localhost when running natively."""
+
+    if not hostname or RUNNING_IN_DOCKER:
+        return hostname
+    if hostname in container_names:
+        return "localhost"
+    return hostname
+
+
+def _normalize_container_hostname_in_url(url_value, container_names):
+    """Ensure URLs using Docker hostnames work when the app runs on the host OS."""
+
+    if not url_value or RUNNING_IN_DOCKER:
+        return url_value
+
+    parsed = urlparse(url_value)
+    if not parsed.hostname or parsed.hostname not in container_names:
+        return url_value
+
+    auth = ""
+    if parsed.username is not None:
+        auth = quote(parsed.username, safe="")
+        if parsed.password is not None:
+            auth = f"{auth}:{quote(parsed.password, safe='')}"
+        auth = f"{auth}@"
+
+    port = f":{parsed.port}" if parsed.port else ""
+    new_netloc = f"{auth}localhost{port}"
+    return urlunparse(parsed._replace(netloc=new_netloc))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/stable/howto/deployment/checklist/
@@ -80,9 +117,21 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
 ]
 
-PEGASUS_APPS = [
-    "pegasus.apps.examples.apps.PegasusExamplesConfig",
-    "pegasus.apps.employees.apps.PegasusEmployeesConfig",
+TUTORIAL_APPS = [
+    "tutorial.apps.foundations.apps.FoundationsConfig",
+    "tutorial.apps.data_structures.apps.DataStructuresConfig",
+    "tutorial.apps.algorithms.apps.AlgorithmsConfig",
+    "tutorial.apps.oop.apps.OopConfig",
+    "tutorial.apps.patterns.apps.PatternsConfig",
+    "tutorial.apps.web.apps.WebConfig",
+    "tutorial.apps.topics.apps.TopicsConfig",
+    "tutorial.apps.db.apps.DbConfig",
+    "tutorial.apps.api.apps.ApiConfig",
+    "tutorial.apps.async.apps.AsyncConfig",
+    "tutorial.apps.devops.apps.DevopsConfig",
+    "tutorial.apps.system_design.apps.SystemDesignConfig",
+    "tutorial.apps.tests.apps.TestsConfig",
+    "tutorial.apps.leadership.apps.LeadershipConfig",
 ]
 
 # Put your project-specific apps here
@@ -98,7 +147,7 @@ PROJECT_APPS = [
     "apps.ai.apps.AiConfig",
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PEGASUS_APPS + PROJECT_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + TUTORIAL_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -167,15 +216,21 @@ FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 # https://docs.djangoproject.com/en/stable/ref/settings/#databases
 
 if "DATABASE_URL" in env:
-    DATABASES = {"default": env.db()}
+    database_config = env.db()
+    normalized_host = _normalize_container_hostname(database_config.get("HOST"), DOCKER_DB_HOSTNAMES)
+    if normalized_host:
+        database_config["HOST"] = normalized_host
+    DATABASES = {"default": database_config}
 else:
+    database_host = env("DJANGO_DATABASE_HOST", default="localhost")
+    database_host = _normalize_container_hostname(database_host, DOCKER_DB_HOSTNAMES)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": env("DJANGO_DATABASE_NAME", default="python_tutorial"),
             "USER": env("DJANGO_DATABASE_USER", default="postgres"),
             "PASSWORD": env("DJANGO_DATABASE_PASSWORD", default="***"),
-            "HOST": env("DJANGO_DATABASE_HOST", default="localhost"),
+            "HOST": database_host,
             "PORT": env("DJANGO_DATABASE_PORT", default="5432"),
         }
     }
@@ -436,8 +491,11 @@ elif "REDIS_TLS_URL" in env:
     REDIS_URL = env("REDIS_TLS_URL")
 else:
     REDIS_HOST = env("REDIS_HOST", default="localhost")
+    REDIS_HOST = _normalize_container_hostname(REDIS_HOST, DOCKER_REDIS_HOSTNAMES)
     REDIS_PORT = env("REDIS_PORT", default="6379")
     REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+
+REDIS_URL = _normalize_container_hostname_in_url(REDIS_URL, DOCKER_REDIS_HOSTNAMES)
 
 if REDIS_URL.startswith("rediss"):
     REDIS_URL = f"{REDIS_URL}?ssl_cert_reqs=none"
@@ -457,26 +515,14 @@ CELERY_BROKER_URL = CELERY_RESULT_BACKEND = REDIS_URL
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 # Add tasks to this dict and run `python manage.py bootstrap_celery_tasks` to create them
-SCHEDULED_TASKS = {
-    "test-celerybeat": {
-        "task": "pegasus.apps.examples.tasks.example_log_task",
-        "schedule": 60,
-        "expire_seconds": 60,
-    },
-    # Example of a crontab schedule
-    # from celery import schedules
-    # "daily-4am-task": {
-    #     "task": "some.task.path",
-    #     "schedule": schedules.crontab(minute=0, hour=4),
-    # },
-}
+SCHEDULED_TASKS = {}
 
 # Health Checks
 # A list of tokens that can be used to access the health check endpoint
 HEALTH_CHECK_TOKENS = env.list("HEALTH_CHECK_TOKENS", default="")
 
 
-# Pegasus config
+# Tutorial config
 
 # replace any values below with specifics for your project
 PROJECT_METADATA = {
@@ -583,9 +629,9 @@ LOGGING = {
             "handlers": ["console"],
             "level": env("PYTHON_TUTORIAL_LOG_LEVEL", default="INFO"),
         },
-        "pegasus": {
+        "tutorial": {
             "handlers": ["console"],
-            "level": env("PEGASUS_LOG_LEVEL", default="DEBUG"),
+            "level": env("TUTORIAL_LOG_LEVEL", default=env("PEGASUS_LOG_LEVEL", default="DEBUG")),
         },
     },
 }

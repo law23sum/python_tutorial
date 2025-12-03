@@ -29,9 +29,9 @@ export default defineConfig({
         'site': path.resolve(__dirname, './assets/javascript/site.js'),
         'app': path.resolve(__dirname, './assets/javascript/app.js'),
         'dashboard': path.resolve(__dirname, './assets/javascript/shadcn-dashboard/index.jsx'),
-        'pegasus': path.resolve(__dirname, './assets/javascript/pegasus/pegasus.js'),
-        'react-object-lifecycle': path.resolve(__dirname, './assets/javascript/pegasus/examples/react/react-object-lifecycle.jsx'),
-        'vue-object-lifecycle': path.resolve(__dirname, './assets/javascript/pegasus/examples/vue/vue-object-lifecycle.js'),
+        'tutorial': path.resolve(__dirname, './assets/javascript/tutorial/tutorial.js'),
+        'react-object-lifecycle': path.resolve(__dirname, './assets/javascript/tutorial/web/react/react-object-lifecycle.jsx'),
+        'vue-object-lifecycle': path.resolve(__dirname, './assets/javascript/tutorial/web/vue/vue-object-lifecycle.js'),
         'chat': path.resolve(__dirname, './assets/javascript/chat/chat.jsx'),
       },
       output: {

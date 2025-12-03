@@ -8,6 +8,14 @@
     {% translate "Dashboard" %}
   </a>
 </li>
+{% if user.is_authenticated %}
+<li>
+  <a href="{% url 'tutorial_topics:home' %}" {% if active_tab == 'tutorial' %}class="menu-active"{% endif %}>
+    <i class="fa fa-book h-4 w-4"></i>
+    {% translate "Tutorial" %}
+  </a>
+</li>
+{% endif %}
 <li>
   <a href="{% url 'subscriptions:subscription_demo' %}" {% if active_tab == 'subscription_demo' %}class="active"{% endif %}>
     <i class="fa fa-desktop h-4 w-4"></i>
